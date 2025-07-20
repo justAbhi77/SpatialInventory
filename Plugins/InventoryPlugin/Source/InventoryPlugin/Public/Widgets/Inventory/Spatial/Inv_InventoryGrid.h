@@ -10,6 +10,7 @@
 
 class UCanvasPanel;
 class UInv_GridSlot;
+class UInv_InventoryComponent;
 
 /**
  * 
@@ -19,15 +20,23 @@ class INVENTORYPLUGIN_API UInv_InventoryGrid : public UUserWidget
 {
 	GENERATED_BODY()
 public:
+	virtual void NativePreConstruct() override;
+
 	virtual void NativeOnInitialized() override;
 
 	EInv_ItemCategory GetItemCategory() const { return ItemCategory; }
 
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void ConstructGrid();
+	
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void CalculateTileSize(FVector2D DesiredSize);
+
+	UFUNCTION()
+	void AddItem(UInv_InventoryItem* Item);
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"),  Category = "Inventory")
 	EInv_ItemCategory ItemCategory;
-
-	void ConstructGrid();
 
 	UPROPERTY()
 	TArray<TObjectPtr<UInv_GridSlot>> GridSlots;
@@ -38,12 +47,16 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UCanvasPanel> CanvasPanel;
 
-	UPROPERTY(EditAnywhere, Category = "Inventory")
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Inventory")
 	int32 Rows;
 
-	UPROPERTY(EditAnywhere, Category = "Inventory")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"), Category = "Inventory")
 	int32 Columns;
 
-	UPROPERTY(EditAnywhere, Category = "Inventory")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"), Category = "Inventory")
 	float TileSize;
+
+	TWeakObjectPtr<UInv_InventoryComponent> InventoryComponent;
+
+	bool MatchesCategory(const UInv_InventoryItem* Item) const;
 };

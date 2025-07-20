@@ -27,6 +27,8 @@ public class InventoryPlugin : ModuleRules
 			{
 				"Core",
 				// ... add other public dependencies that you statically link with here ...
+				"NetCore",
+				"GameplayTags",
 			}
 			);
 			

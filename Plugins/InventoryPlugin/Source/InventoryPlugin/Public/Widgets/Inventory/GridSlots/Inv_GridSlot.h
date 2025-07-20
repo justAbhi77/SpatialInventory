@@ -20,7 +20,7 @@ public:
 	void SetTileIndex(int32 Index) { TileIndex = Index; }
 
 	int32 GetTileIndex() const { return TileIndex; }
-	
+
 private:
 	int32 TileIndex;
 

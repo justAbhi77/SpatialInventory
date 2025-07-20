@@ -21,17 +21,18 @@ class INVENTORYPLUGIN_API UInv_SpatialInventory : public UInv_InventoryBase
 public:
 	virtual void NativeOnInitialized() override;
 
+	virtual FInv_SlotAvailabilityResult HasRoomForItem(UInv_ItemComponent* ItemComponent) const override;
 private:
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
 	TObjectPtr<UWidgetSwitcher> Switcher;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
 	TObjectPtr<UInv_InventoryGrid> Grid_Equippables;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
 	TObjectPtr<UInv_InventoryGrid> Grid_Consumables;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget, AllowPrivateAccess = "true"))
 	TObjectPtr<UInv_InventoryGrid> Grid_Craftables;
 
 	UPROPERTY(meta = (BindWidget))

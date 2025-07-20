@@ -13,7 +13,7 @@ void UInv_SpatialInventory::NativeOnInitialized()
 	Button_Equippables->OnClicked.AddDynamic(this, &ThisClass::ShowEquippables);
 	Button_Consumables->OnClicked.AddDynamic(this, &ThisClass::ShowConsumables);
 	Button_Craftables->OnClicked.AddDynamic(this, &ThisClass::ShowCraftables);
-
+	
 	ShowEquippables();
 }
 
@@ -44,4 +44,11 @@ void UInv_SpatialInventory::SetActiveGrid(UInv_InventoryGrid* Grid, UButton* But
 {
 	DisableButton(Button);
 	Switcher->SetActiveWidget(Grid);
+}
+
+FInv_SlotAvailabilityResult UInv_SpatialInventory::HasRoomForItem(UInv_ItemComponent* ItemComponent) const
+{
+	FInv_SlotAvailabilityResult Result;
+	Result.TotalRoomToFill = 1;
+	return Result;
 }
