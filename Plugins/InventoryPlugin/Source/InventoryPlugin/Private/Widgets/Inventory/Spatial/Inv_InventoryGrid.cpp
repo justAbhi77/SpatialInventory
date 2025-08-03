@@ -32,6 +32,7 @@ void UInv_InventoryGrid::NativeOnInitialized()
 
 	InventoryComponent = UInv_InventoryStatics::GetInventoryComponent(GetOwningPlayer());
 	InventoryComponent->OnItemAdded.AddDynamic(this, &ThisClass::AddItem);
+	InventoryComponent->OnStackChange.AddDynamic(this, &ThisClass::AddStacks);
 }
 
 void UInv_InventoryGrid::ConstructGrid()
@@ -117,8 +118,8 @@ FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const FInv_ItemMa
 	Result.bStackable = StackableFragment != nullptr;
 
 	// Determine how many stacks to add.
-	const int32 MaxStackSize = StackableFragment ? StackableFragment->GetMaxStackSize() : 1;
-	int32 AmountToFill = StackableFragment ? StackableFragment->GetStackCount() : 1;
+	const int32 MaxStackSize = Result.bStackable ? StackableFragment->GetMaxStackSize() : 1;
+	int32 AmountToFill = Result.bStackable ? StackableFragment->GetStackCount() : 1;
 
 	TSet<int32> CheckedIndices;
 	// For each Grid Slot:
@@ -141,10 +142,12 @@ FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const FInv_ItemMa
 		const int32 AmountToFillInSlot = DetermineFillAmountForSlot(Result.bStackable, MaxStackSize, AmountToFill, GridSlot);
 		if(AmountToFillInSlot == 0) continue;
 
+		// these are the indices that we are going to claim since we have fill some or all of the slot.
 		CheckedIndices.Append(TentativelyClaimed);
 
 		// Update the amount left to fill
 		Result.TotalRoomToFill += AmountToFillInSlot;
+		// emplace makes the item in the array instead of copying it to the array like Add does.
 		Result.SlotAvailabilities.Emplace(
 			FInv_SlotAvailability{
 				HasValidItem(GridSlot) ? GridSlot->GetUpperLeftIndex() : GridSlot->GetIndex(),
@@ -321,7 +324,7 @@ bool UInv_InventoryGrid::DoesItemTypeMatch(const UInv_InventoryItem* SubItem, co
 
 bool UInv_InventoryGrid::IsInGridBounds(const int32 StartIndex, const FIntPoint& ItemDimensions) const
 {
-	if(StartIndex < 0 || StartIndex <= GridSlots.Num()) return false;
+	if(StartIndex < 0 || StartIndex >= GridSlots.Num()) return false;
 
 	const int32 EndColumn = (StartIndex % Columns) + ItemDimensions.X;
 	const int32 EndRow = (StartIndex / Columns) + ItemDimensions.Y;
@@ -346,4 +349,25 @@ int32 UInv_InventoryGrid::GetStackAmount(const UInv_GridSlot* GridSlot) const
 	}
 
 	return CurrentSlotStackCount;
+}
+
+void UInv_InventoryGrid::AddStacks(const FInv_SlotAvailabilityResult& Result)
+{
+	if(!MatchesCategory(Result.Item.Get())) return;
+
+	for(const auto& Availability : Result.SlotAvailabilities)
+	{
+		if(Availability.bItemAtIndex)
+		{
+			const auto& GridSlot = GridSlots[Availability.Index];
+			const auto& SlottedItem = SlottedItems.FindChecked(Availability.Index);
+			SlottedItem->UpdateStackCount(GridSlot->GetStackCount() + Availability.AmountToFill);
+			GridSlot->SetStackCount(GridSlot->GetStackCount() + Availability.AmountToFill);
+		}
+		else
+		{
+			AddItemAtIndex(Result.Item.Get(), Availability.Index, Result.bStackable, Availability.AmountToFill);
+			UpdateGridSlots(Result.Item.Get(), Availability.Index, Result.bStackable, Availability.AmountToFill);
+		}
+	}
 }

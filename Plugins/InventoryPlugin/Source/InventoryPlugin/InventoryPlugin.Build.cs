@@ -7,21 +7,21 @@ public class InventoryPlugin : ModuleRules
 	public InventoryPlugin(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-		
+
 		PublicIncludePaths.AddRange(
 			new string[] {
 				// ... add public include paths required here ...
 			}
 			);
-				
-		
+
+
 		PrivateIncludePaths.AddRange(
 			new string[] {
 				// ... add other private include paths required here ...
 			}
 			);
-			
-		
+
+
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
@@ -31,8 +31,8 @@ public class InventoryPlugin : ModuleRules
 				"GameplayTags",
 			}
 			);
-			
-		
+
+
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
@@ -41,17 +41,23 @@ public class InventoryPlugin : ModuleRules
 				"Slate",
 				"SlateCore",
 				"EnhancedInput",
-				"UMG"
+				"UMG",
+				"MessageLog",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
-		
-		
+
+
 		DynamicallyLoadedModuleNames.AddRange(
 			new string[]
 			{
 				// ... add any modules that your module loads dynamically here ...
 			}
 			);
+
+		if(Target.Type == TargetRules.TargetType.Editor)
+		{
+			PublicDependencyModuleNames.AddRange(new string[] { "UnrealEd" });
+		}
 	}
 }

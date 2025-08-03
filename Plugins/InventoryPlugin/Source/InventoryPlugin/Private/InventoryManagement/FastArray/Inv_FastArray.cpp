@@ -82,6 +82,8 @@ void FInv_InventoryFastArray::RemoveEntry(UInv_InventoryItem* Item)
 
 UInv_InventoryItem* FInv_InventoryFastArray::FindFirstItemByType(const FGameplayTag& ItemType)
 {
+	// the pointer symbol (*) is used to indicate that this is a pointer to an item in the array.
+	// unlike the reference symbol (&), which should be used if the variable is a reference.
 	auto* FoundItem = Entries.FindByPredicate([ItemType = ItemType](const FInv_InventoryEntry& Entry)
 	{
 		return IsValid(Entry.Item) && Entry.Item->GetItemManifest().GetItemType().MatchesTagExact(ItemType);
