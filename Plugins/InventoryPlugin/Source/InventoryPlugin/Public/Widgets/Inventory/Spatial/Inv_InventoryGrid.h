@@ -18,6 +18,7 @@ struct FInv_ImageFragment;
 struct FInv_GridFragment;
 class UInv_SlottedItem;
 struct FGameplayTag;
+class UInv_HoverItem;
 
 /**
  * 
@@ -114,4 +115,25 @@ private:
 
 	UFUNCTION()
 	void AddStacks(const FInv_SlotAvailabilityResult& Result);
+
+	UFUNCTION()
+	void OnSlottedItemClicked(int32 GridIndex, const FPointerEvent& MouseEvent);
+
+	bool IsRightClick(const FPointerEvent& MouseEvent) const;
+
+	bool IsLeftClick(const FPointerEvent& MouseEvent) const;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	TSubclassOf<UInv_HoverItem> HoverItemClass;
+
+	UPROPERTY()
+	TObjectPtr<UInv_HoverItem> HoverItem;
+
+	void PickUp(UInv_InventoryItem* ClickedInventoryItem, const int32 GridIndex);
+
+	void AssignHoverItem(UInv_InventoryItem* InventoryItem);
+
+	void AssignHoverItem(UInv_InventoryItem* InventoryItem, const int32 GridIndex, const int32 PreviousGridIndex);
+
+	void RemoveItemFromGrid(UInv_InventoryItem* InventoryItem, const int32 GridIndex);
 };

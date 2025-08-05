@@ -43,6 +43,7 @@ public class InventoryPlugin : ModuleRules
 				"EnhancedInput",
 				"UMG",
 				"MessageLog",
+				"InputCore",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

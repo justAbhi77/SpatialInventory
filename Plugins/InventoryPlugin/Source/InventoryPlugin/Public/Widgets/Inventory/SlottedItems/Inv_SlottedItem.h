@@ -10,6 +10,8 @@ class UInv_InventoryItem;
 class UImage;
 class UTextBlock;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FSlottedItemClicked, int32, GridIndex, const FPointerEvent&, MouseEvent);
+
 /**
 * 
 */
@@ -40,6 +42,10 @@ public:
 	void SetImageBrush(const FSlateBrush& Brush) const;
 
 	void UpdateStackCount(int32 StackCount);
+
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent) override;
+
+	FSlottedItemClicked OnSlottedItemClicked;
 private:
 
 	UPROPERTY(meta = (BindWidget))

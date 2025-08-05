@@ -25,3 +25,9 @@ void UInv_SlottedItem::UpdateStackCount(int32 StackCount)
 	else
 		Text_StackCount->SetVisibility(ESlateVisibility::Collapsed);
 }
+
+FReply UInv_SlottedItem::NativeOnMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
+{
+	OnSlottedItemClicked.Broadcast(GridIndex, MouseEvent);
+	return FReply::Handled();
+}
