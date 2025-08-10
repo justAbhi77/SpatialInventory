@@ -42,7 +42,6 @@ public:
 	UInv_InventoryItem* GetInventoryItem() const;
 
 	void SetInventoryItem(UInv_InventoryItem* Item);
-
 private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UImage> Image_Icon;

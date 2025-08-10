@@ -61,7 +61,7 @@ public:
 	void SetAvailable(bool bIsAvailable) { bAvailable = bIsAvailable; }
 
 private:
-	int32 TileIndex;
+	int32 TileIndex{INDEX_NONE};
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UImage> Image_GridSlot;
@@ -80,11 +80,11 @@ private:
 
 	EInv_GridSlotState GridSlotState;
 
-	int32 StackCount;
+	int32 StackCount{0};
 
 	int32 UpperLeftIndex{INDEX_NONE};
 
 	TWeakObjectPtr<UInv_InventoryItem> InventoryItem;
 
-	bool bAvailable;
+	bool bAvailable{true};
 };

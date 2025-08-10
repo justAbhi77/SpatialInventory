@@ -5,6 +5,7 @@
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "Items/Inv_InventoryItem.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
 
 void UInv_HoverItem::SetImageBrush(const FSlateBrush& Brush) const
 {

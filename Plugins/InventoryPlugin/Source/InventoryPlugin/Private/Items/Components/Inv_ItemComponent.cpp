@@ -29,12 +29,12 @@ void UInv_ItemComponent::BeginPlay()
 	if(AActor* Owner = GetOwner())
 		if(!Owner->GetIsReplicated())
 		{
-			// UE_LOG(LogActor, BreakOnLog, TEXT("Item Component on Actor %s is Not Replicated."), *Owner->GetName());
+			UE_LOG(LogActor, BreakOnLog, TEXT("Item Component on Actor %s is Not Replicated."), *Owner->GetName());
 
+			
+#if WITH_EDITOR
 			auto messageLog = FMessageLog(MessageLogListing);
 			messageLog.Error(FText::FromString(FString::Printf(TEXT("Item Component on Actor %s is Not Replicated."), *Owner->GetName())));
-
-#if WITH_EDITOR
 
 			TSharedPtr<FDelegateHandle> ShutdownMessage = MakeShared<FDelegateHandle>();
 			*ShutdownMessage = FEditorDelegates::ShutdownPIE.AddLambda([ShutdownMessage](bool bPlayInEditor){
