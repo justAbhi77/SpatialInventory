@@ -32,3 +32,21 @@ void UInv_GridSlot::SetInventoryItem(UInv_InventoryItem* Item)
 {
 	InventoryItem = Item;
 }
+
+void UInv_GridSlot::NativeOnMouseEnter(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
+{
+	Super::NativeOnMouseEnter(MyGeometry, MouseEvent);
+	GridSlotHovered.Broadcast(TileIndex, MouseEvent);
+}
+
+void UInv_GridSlot::NativeOnMouseLeave(const FPointerEvent& MouseEvent)
+{
+	Super::NativeOnMouseLeave(MouseEvent);
+	GridSlotUnhovered.Broadcast(TileIndex, MouseEvent);
+}
+
+FReply UInv_GridSlot::NativeOnMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
+{
+	GridSlotClicked.Broadcast(TileIndex, MouseEvent);
+	return FReply::Handled();
+}

@@ -18,6 +18,8 @@ enum class EInv_GridSlotState : uint8
 	GrayedOut
 };
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FGridSlotEvent, int32, GridIndex, const FPointerEvent&, MouseEvent);
+
 /**
  * 
  */
@@ -59,6 +61,18 @@ public:
 	bool IsAvailable() const { return bAvailable; }
 
 	void SetAvailable(bool bIsAvailable) { bAvailable = bIsAvailable; }
+
+	virtual void NativeOnMouseEnter(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent) override;
+
+	virtual void NativeOnMouseLeave(const FPointerEvent& MouseEvent) override;
+
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent) override;
+
+	FGridSlotEvent GridSlotClicked;
+
+	FGridSlotEvent GridSlotHovered;
+
+	FGridSlotEvent GridSlotUnhovered;
 
 private:
 	int32 TileIndex{INDEX_NONE};
