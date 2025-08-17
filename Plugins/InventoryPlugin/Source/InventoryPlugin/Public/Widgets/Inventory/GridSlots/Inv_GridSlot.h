@@ -8,6 +8,7 @@
 
 class UImage;
 class UInv_InventoryItem;
+class UInv_ItemPopUp;
 
 UENUM(BlueprintType)
 enum class EInv_GridSlotState : uint8
@@ -23,7 +24,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FGridSlotEvent, int32, GridIndex, c
 /**
  * 
  */
-UCLASS()
+UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_GridSlot : public UUserWidget
 {
 	GENERATED_BODY()
@@ -74,6 +75,10 @@ public:
 
 	FGridSlotEvent GridSlotUnhovered;
 
+	void SetItemPopUp(UInv_ItemPopUp* PopUp);
+
+	UInv_ItemPopUp* GetItemPopUp() const;
+
 private:
 	int32 TileIndex{INDEX_NONE};
 
@@ -101,4 +106,9 @@ private:
 	TWeakObjectPtr<UInv_InventoryItem> InventoryItem;
 
 	bool bAvailable{true};
+
+	TWeakObjectPtr<UInv_ItemPopUp> ItemPopUp;
+
+	UFUNCTION()
+	void OnItemPopUpDestruct(UUserWidget* Menu);
 };

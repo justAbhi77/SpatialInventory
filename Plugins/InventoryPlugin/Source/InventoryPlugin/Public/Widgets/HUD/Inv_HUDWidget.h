@@ -11,7 +11,7 @@ class UInv_InfoMessage;
 /**
  * 
  */
-UCLASS()
+UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_HUDWidget : public UUserWidget
 {
 	GENERATED_BODY()

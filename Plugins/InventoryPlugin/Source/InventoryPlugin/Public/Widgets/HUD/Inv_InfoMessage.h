@@ -8,7 +8,7 @@
 
 class UTextBlock;
 
-UCLASS()
+UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_InfoMessage : public UUserWidget
 {
 	GENERATED_BODY()

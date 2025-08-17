@@ -11,7 +11,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_HighlightableStaticMesh : public UStaticMeshComponent, public IInv_Highlightable
 {
 	GENERATED_BODY()

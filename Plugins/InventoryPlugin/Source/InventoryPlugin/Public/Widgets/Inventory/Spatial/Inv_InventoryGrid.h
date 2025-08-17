@@ -20,11 +20,12 @@ class UInv_SlottedItem;
 struct FGameplayTag;
 class UInv_HoverItem;
 enum class EInv_GridSlotState : uint8;
+class UInv_ItemPopUp;
 
 /**
  * 
  */
-UCLASS()
+UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_InventoryGrid : public UUserWidget
 {
 	GENERATED_BODY()
@@ -51,6 +52,15 @@ public:
 	void ShowCursor();
 
 	void HideCursor();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	bool bCheckForSlottedItemsWithRoom{true};
+
+	void SetOwningCanvas(UCanvasPanel* OwningCanvas);
+
+	void DropItem();
+
+	bool HasHoverItem() const;
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"),  Category = "Inventory")
 	EInv_ItemCategory ItemCategory;
@@ -222,4 +232,26 @@ private:
 	bool ShouldFillInStack(const int32 RoomInClickedSlot, const int32 HoveredStackCount) const;
 
 	void FillInStack(const int32 FillAmount, const int32 Remainder, const int32 Index);
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	TSubclassOf<UInv_ItemPopUp> ItemPopUpClass;
+
+	UPROPERTY()
+	TObjectPtr<UInv_ItemPopUp> ItemPopUp;
+
+	TWeakObjectPtr<UCanvasPanel> OwningCanvasPanel;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	FVector2D ItemPopUpOffset;
+
+	UFUNCTION()
+	void OnPopUpMenuSplit(int32 SplitAmount, int32 Index);
+
+	UFUNCTION()
+	void OnPopUpMenuDrop(int32 Index);
+
+	UFUNCTION()
+	void OnPopUpMenuConsume(int32 Index);
+
+	void CreateItemPopUp(const int32 GridIndex);
 };

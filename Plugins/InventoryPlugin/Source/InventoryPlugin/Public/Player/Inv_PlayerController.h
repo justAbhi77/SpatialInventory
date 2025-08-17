@@ -15,7 +15,7 @@ class UInv_InventoryComponent;
 /**
  * 
  */
-UCLASS()
+UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API AInv_PlayerController : public APlayerController
 {
 	GENERATED_BODY()

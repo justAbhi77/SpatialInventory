@@ -10,7 +10,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_InventoryItem : public UObject
 {
 	GENERATED_BODY()
@@ -30,6 +30,8 @@ public:
 	int32 GetTotalStackCount() const { return TotalStackCount; }
 
 	void SetTotalStackCount(int32 Count) { TotalStackCount = Count; }
+
+	bool IsConsumable() const;
 private:
 
 	UPROPERTY(VisibleAnywhere, meta = (BaseStruct = "/Script/InventoryPlugin.Inv_ItemManifest"), Replicated)

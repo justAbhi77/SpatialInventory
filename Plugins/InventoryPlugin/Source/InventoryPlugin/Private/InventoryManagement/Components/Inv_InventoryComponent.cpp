@@ -6,6 +6,7 @@
 #include "Items/Components/Inv_ItemComponent.h"
 #include "Items/Inv_InventoryItem.h"
 #include "Items/Fragments/Inv_ItemFragment.h"
+#include "GameFramework/Pawn.h"
 
 
 UInv_InventoryComponent::UInv_InventoryComponent() : InventoryList(this)
@@ -135,4 +136,49 @@ void UInv_InventoryComponent::AddRepSubObj(UObject* SubObj)
 {
 	if(IsUsingRegisteredSubObjectList() && IsReadyForReplication() && IsValid(SubObj))
 		AddReplicatedSubObject(SubObj);
+}
+
+void UInv_InventoryComponent::Server_DropItem_Implementation(UInv_InventoryItem* Item, int32 StackCount)
+{
+	const int32 NewStackCount = Item->GetTotalStackCount() - StackCount;
+
+	if(NewStackCount <= 0)
+		InventoryList.RemoveEntry(Item);
+	else
+		Item->SetTotalStackCount(NewStackCount);
+
+	SpawnDroppedItem(Item, StackCount);
+}
+
+void UInv_InventoryComponent::SpawnDroppedItem(UInv_InventoryItem* Item, int32 StackCount)
+{
+	// Spawn the dropped item in the level
+
+	const APawn* OwningPawn = OwningController->GetPawn();
+	FVector RotatedForward = OwningPawn->GetActorForwardVector();
+	RotatedForward = RotatedForward.RotateAngleAxis(FMath::FRandRange(DropSpawnAngleMin, DropSpawnAngleMax), FVector::UpVector);
+	FVector SpawnLocation = OwningPawn->GetActorLocation() + RotatedForward * FMath::FRandRange(DropSpawnDistanceMin, DropSpawnDistanceMax);
+	SpawnLocation.Z -= RelativeSpawnDepression;
+	const FRotator SpawnRotation = FRotator::ZeroRotator;
+
+	// Have the Item Manifest spawn the pickup actor.
+	FInv_ItemManifest& ItemManifest = Item->GetItemManifestMutable();
+
+	if(FInv_StackableFragment* StackableFragment = ItemManifest.GetFragmentOfTypeMutable<FInv_StackableFragment>())
+		StackableFragment->SetStackCount(StackCount);
+
+	ItemManifest.SpawnPickupActor(this, SpawnLocation, SpawnRotation);
+}
+
+void UInv_InventoryComponent::Server_ConsumeItem_Implementation(UInv_InventoryItem* Item, int32 StackCount)
+{
+	const int32 NewStackCount = Item->GetTotalStackCount() - StackCount;
+	if(NewStackCount <= 0)
+		InventoryList.RemoveEntry(Item);
+	else
+		Item->SetTotalStackCount(NewStackCount);
+
+	// Get the consumable fragment and call Consume()
+	if(FInv_ConsumableFragment* ConsumableFragment = Item->GetItemManifestMutable().GetFragmentOfTypeMutable<FInv_ConsumableFragment>())
+		ConsumableFragment->OnConsume(OwningController.Get(), StackCount);
 }

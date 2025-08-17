@@ -13,6 +13,7 @@ UInv_ItemComponent::UInv_ItemComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	PickupMessage = FString("E - Pick Up");
+	SetIsReplicatedByDefault(true);
 }
 
 void UInv_ItemComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -31,8 +32,8 @@ void UInv_ItemComponent::BeginPlay()
 		{
 			UE_LOG(LogActor, BreakOnLog, TEXT("Item Component on Actor %s is Not Replicated."), *Owner->GetName());
 
-			
 #if WITH_EDITOR
+			if(!Owner->HasAuthority()) return;
 			auto messageLog = FMessageLog(MessageLogListing);
 			messageLog.Error(FText::FromString(FString::Printf(TEXT("Item Component on Actor %s is Not Replicated."), *Owner->GetName())));
 
@@ -50,4 +51,9 @@ void UInv_ItemComponent::PickedUp()
 {
 	OnPickedUp();
 	GetOwner()->Destroy();
+}
+
+void UInv_ItemComponent::InitItemManifest(FInv_ItemManifest CopyOfManifest)
+{
+	ItemManifest = CopyOfManifest;
 }

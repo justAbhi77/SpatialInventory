@@ -19,7 +19,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStackChange, const FInv_SlotAvailab
 /**
  * 
  */
-UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable, PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_InventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -46,6 +46,16 @@ public:
 	void Server_AddStacksToItem(UInv_ItemComponent* ItemComponent, int32 StackCount, int32 Remainder);
 
 	void AddRepSubObj(UObject* SubObj);
+
+	UFUNCTION(Server, Reliable)
+	void Server_DropItem(UInv_InventoryItem* Item, int32 StackCount);
+
+	void SpawnDroppedItem(UInv_InventoryItem* Item, int32 StackCount);
+
+	UFUNCTION(Server, Reliable)
+	void Server_ConsumeItem(UInv_InventoryItem* Item, int32 StackCount);
+
+	UInv_InventoryBase* GetInventoryMenu() const { return InventoryMenu; }
 protected:
 	virtual void BeginPlay() override;
 
@@ -66,6 +76,21 @@ private:
 
 	UPROPERTY(Replicated)
 	FInv_InventoryFastArray InventoryList;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float DropSpawnAngleMin = -90.f;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float DropSpawnAngleMax = 90.f;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float DropSpawnDistanceMin = 50.f;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float DropSpawnDistanceMax = 125.f;
+
+	UPROPERTY(EditAnywhere, Category = "Inventory")
+	float RelativeSpawnDepression = 75.f;
 };
 
 

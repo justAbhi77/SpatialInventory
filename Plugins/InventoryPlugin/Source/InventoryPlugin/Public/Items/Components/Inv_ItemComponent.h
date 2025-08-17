@@ -11,7 +11,7 @@
 /**
  * 
  */
-UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable)
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable, PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_ItemComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -26,6 +26,8 @@ public:
 	FInv_ItemManifest GetItemManifest() const { return ItemManifest; }
 
 	void PickedUp();
+
+	void InitItemManifest(FInv_ItemManifest CopyOfManifest);
 protected:
 	virtual void BeginPlay() override;
 

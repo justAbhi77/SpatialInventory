@@ -15,7 +15,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FSlottedItemClicked, int32, GridInd
 /**
 * 
 */
-UCLASS()
+UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_SlottedItem : public UUserWidget
 {
 	GENERATED_BODY()
@@ -46,6 +46,10 @@ public:
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent) override;
 
 	FSlottedItemClicked OnSlottedItemClicked;
+
+	virtual void NativeOnMouseEnter(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent) override;
+
+	virtual void NativeOnMouseLeave(const FPointerEvent& MouseEvent) override;
 private:
 
 	UPROPERTY(meta = (BindWidget))

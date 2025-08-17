@@ -4,6 +4,7 @@
 #include "Items/Inv_InventoryItem.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "InventoryManagement/Utils/Inv_InventoryStatics.h"
 
 void UInv_SlottedItem::SetInventoryItem(UInv_InventoryItem* Item)
 {
@@ -30,4 +31,14 @@ FReply UInv_SlottedItem::NativeOnMouseButtonDown(const FGeometry& MyGeometry, co
 {
 	OnSlottedItemClicked.Broadcast(GridIndex, MouseEvent);
 	return FReply::Handled();
+}
+
+void UInv_SlottedItem::NativeOnMouseEnter(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)
+{
+	UInv_InventoryStatics::ItemHovered(GetOwningPlayer(), InventoryItem.Get());
+}
+
+void UInv_SlottedItem::NativeOnMouseLeave(const FPointerEvent& MouseEvent)
+{
+	UInv_InventoryStatics::ItemUnhovered(GetOwningPlayer());
 }

@@ -14,7 +14,7 @@ class UInv_InventoryItem;
 /**
  * The HoverItem is the item that will appear and follow the mouse when an inventory item on the grid has been clicked.
  */
-UCLASS()
+UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_HoverItem : public UUserWidget
 {
 	GENERATED_BODY()
