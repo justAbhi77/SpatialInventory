@@ -61,6 +61,16 @@ public:
 	void DropItem();
 
 	bool HasHoverItem() const;
+
+	UInv_HoverItem* GetHoverItem() const;
+
+	float GetTileSize() const { return TileSize; }
+
+	void ClearHoverItem();
+
+	void AssignHoverItem(UInv_InventoryItem* InventoryItem);
+
+	void OnHide();
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"),  Category = "Inventory")
 	EInv_ItemCategory ItemCategory;
@@ -87,8 +97,8 @@ private:
 
 	bool MatchesCategory(const UInv_InventoryItem* Item) const;
 
-	FInv_SlotAvailabilityResult HasRoomForItem(const UInv_InventoryItem* Item);
-	FInv_SlotAvailabilityResult HasRoomForItem(const FInv_ItemManifest& Manifest);
+	FInv_SlotAvailabilityResult HasRoomForItem(const UInv_InventoryItem* Item, const int32 StackAmountOverride = -1);
+	FInv_SlotAvailabilityResult HasRoomForItem(const FInv_ItemManifest& Manifest, const int32 StackAmountOverride = -1);
 
 	void AddItemToIndices(const FInv_SlotAvailabilityResult& Result, UInv_InventoryItem* NewItem);
 
@@ -148,8 +158,6 @@ private:
 
 	void PickUp(UInv_InventoryItem* ClickedInventoryItem, const int32 GridIndex);
 
-	void AssignHoverItem(UInv_InventoryItem* InventoryItem);
-
 	void AssignHoverItem(UInv_InventoryItem* InventoryItem, const int32 GridIndex, const int32 PreviousGridIndex);
 
 	void RemoveItemFromGrid(UInv_InventoryItem* InventoryItem, const int32 GridIndex);
@@ -198,8 +206,6 @@ private:
 	void OnGridSlotUnhovered(int32 GridIndex, const FPointerEvent& MouseEvent);
 
 	void PutDownOnIndex(const int32 Index);
-
-	void ClearHoverItem();
 
 	UUserWidget* GetVisibleCursorWidget();
 
@@ -254,4 +260,9 @@ private:
 	void OnPopUpMenuConsume(int32 Index);
 
 	void CreateItemPopUp(const int32 GridIndex);
+
+	void PutHoverItemBack();
+
+	UFUNCTION()
+	void OnInventoryMenuToggled(bool bOpen);
 };

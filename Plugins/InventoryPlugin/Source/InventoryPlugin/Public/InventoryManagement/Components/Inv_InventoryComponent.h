@@ -15,6 +15,8 @@ class UInv_ItemComponent;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInventoryItemChange, UInv_InventoryItem*, Item);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNoRoomInInventory);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStackChange, const FInv_SlotAvailabilityResult&, Result);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FItemEquipStatusChanged, UInv_InventoryItem*, Item);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInventoryMenuToggled, bool, bOpen);
 
 /**
  * 
@@ -56,6 +58,20 @@ public:
 	void Server_ConsumeItem(UInv_InventoryItem* Item, int32 StackCount);
 
 	UInv_InventoryBase* GetInventoryMenu() const { return InventoryMenu; }
+
+	UFUNCTION(Server, Reliable)
+	void Server_EquipSlotClicked(UInv_InventoryItem* ItemToEquip, UInv_InventoryItem* ItemToUnequip);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void Multicast_EquipSlotClicked(UInv_InventoryItem* ItemToEquip, UInv_InventoryItem* ItemToUnequip);
+
+	FItemEquipStatusChanged OnItemEquipped;
+
+	FItemEquipStatusChanged OnItemUnequipped;
+
+	FInventoryMenuToggled OnInventoryMenuToggled;
+
+	bool IsMenuOpen() const { return bInventoryMenuOpen; }
 protected:
 	virtual void BeginPlay() override;
 

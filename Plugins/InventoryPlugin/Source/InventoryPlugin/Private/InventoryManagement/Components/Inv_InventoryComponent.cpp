@@ -49,6 +49,8 @@ void UInv_InventoryComponent::ToggleInventoryMenu()
 		CloseInventoryMenu();
 	else
 		OpenInventoryMenu();
+
+	OnInventoryMenuToggled.Broadcast(bInventoryMenuOpen);
 }
 
 void UInv_InventoryComponent::OpenInventoryMenu()
@@ -181,4 +183,16 @@ void UInv_InventoryComponent::Server_ConsumeItem_Implementation(UInv_InventoryIt
 	// Get the consumable fragment and call Consume()
 	if(FInv_ConsumableFragment* ConsumableFragment = Item->GetItemManifestMutable().GetFragmentOfTypeMutable<FInv_ConsumableFragment>())
 		ConsumableFragment->OnConsume(OwningController.Get(), StackCount);
+}
+
+void UInv_InventoryComponent::Server_EquipSlotClicked_Implementation(UInv_InventoryItem* ItemToEquip, UInv_InventoryItem* ItemToUnequip)
+{
+	Multicast_EquipSlotClicked(ItemToEquip, ItemToUnequip);
+}
+
+void UInv_InventoryComponent::Multicast_EquipSlotClicked_Implementation(UInv_InventoryItem* ItemToEquip, UInv_InventoryItem* ItemToUnequip)
+{
+	// Equipment Component will listen to these delegates
+	OnItemEquipped.Broadcast(ItemToEquip);
+	OnItemUnequipped.Broadcast(ItemToUnequip);
 }

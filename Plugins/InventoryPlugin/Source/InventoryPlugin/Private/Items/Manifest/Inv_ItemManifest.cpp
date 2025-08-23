@@ -6,11 +6,18 @@
 #include "Engine/World.h"
 #include "InventoryPlugin.h"
 #include "Logging/MessageLog.h"
+#include "Items/Fragments/Inv_ItemFragment.h"
+#include "Widgets/Composite/Inv_CompositeBase.h"
 
 UInv_InventoryItem* FInv_ItemManifest::Manifest(UObject* NewOuter)
 {
 	UInv_InventoryItem* Item = NewObject<UInv_InventoryItem>(NewOuter, UInv_InventoryItem::StaticClass());
 	Item->SetItemManifest(*this);
+
+	for(auto& Fragment : Item->GetItemManifestMutable().GetFragmentsMutable())
+		Fragment.GetMutable().Manifest();
+
+	ClearFragments();
 
 	return Item;
 }
@@ -45,4 +52,22 @@ void FInv_ItemManifest::SpawnPickupActor(const UObject* WorldContextObject, cons
 	}
 
 	ItemComp->InitItemManifest(*this);
+}
+
+void FInv_ItemManifest::AssimilateInventoryFragments(UInv_CompositeBase* Composite) const
+{
+	const auto& InventoryItemFragments = GetAllFragmentsOfType<FInv_InventoryItemFragment>();
+	for(const auto* Fragment : InventoryItemFragments)
+		Composite->ApplyFunction([Fragment](UInv_CompositeBase* Widget)
+		{
+			Fragment->Assimilate(Widget);
+		});
+}
+
+void FInv_ItemManifest::ClearFragments()
+{
+	for(auto& Fragment : Fragments)
+		Fragment.Reset();
+
+	Fragments.Empty();
 }

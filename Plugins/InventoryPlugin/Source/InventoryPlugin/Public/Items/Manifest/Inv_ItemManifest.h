@@ -15,6 +15,7 @@
 
 class UInv_InventoryItem;
 struct FInv_ItemFragment;
+class UInv_CompositeBase;
 
 USTRUCT(BlueprintType)
 struct INVENTORYPLUGIN_API FInv_ItemManifest
@@ -37,8 +38,14 @@ struct INVENTORYPLUGIN_API FInv_ItemManifest
 	T* GetFragmentOfTypeMutable();
 
 	void SpawnPickupActor(const UObject* WorldContextObject, const FVector& SpawnLocation, const FRotator& SpawnRotation);
-private:
 
+	void AssimilateInventoryFragments(UInv_CompositeBase* Composite) const;
+
+	template<typename T> requires std::derived_from<T, FInv_ItemFragment>
+	TArray<const T*> GetAllFragmentsOfType() const;
+
+	TArray<TInstancedStruct<FInv_ItemFragment>>& GetFragmentsMutable() { return Fragments; }
+private:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	EInv_ItemCategory ItemCategory{EInv_ItemCategory::None};
 
@@ -50,6 +57,8 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (ExcludeBaseStruct))
 	TArray<TInstancedStruct<FInv_ItemFragment>> Fragments;
+
+	void ClearFragments();
 };
 
 template<typename T> requires std::derived_from<T, FInv_ItemFragment>
@@ -83,4 +92,15 @@ T* FInv_ItemManifest::GetFragmentOfTypeMutable()
 			return FragmentPtr;
 
 	return nullptr;
+}
+
+template <typename T> requires std::derived_from<T, FInv_ItemFragment>
+TArray<const T*> FInv_ItemManifest::GetAllFragmentsOfType() const
+{
+	TArray<const T*> Result;
+	for(const TInstancedStruct<FInv_ItemFragment>& Fragment : Fragments)
+		if(const T* FragmentPtr = Fragment.GetPtr<T>())
+			Result.Add(FragmentPtr);
+
+	return Result;
 }
