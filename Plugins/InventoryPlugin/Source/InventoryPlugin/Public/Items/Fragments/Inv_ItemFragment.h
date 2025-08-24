@@ -93,8 +93,7 @@ struct FInv_LabeledNumberFragment : public FInv_InventoryItemFragment
 	virtual void Manifest() override;
 	float GetValue() const { return Value; }
 
-	// When manifesting for the first time, this fragment will randomize. However, once equipped
-	// and dropped, an item should retain the same value, so randomization should not occur.
+	// When manifesting for the first time, this fragment will randomize. However, once equipped and dropped, an item should retain the same value, so randomization should not occur.
 	bool bRandomizeOnManifest{true};
 
 private:

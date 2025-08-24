@@ -13,13 +13,12 @@ class INVENTORYPLUGIN_API UInv_Leaf_LabeledValue : public UInv_Leaf
 {
 	GENERATED_BODY()
 public:
-
 	void SetText_Label(const FText& Text, bool bCollapse) const;
-	void SetText_Value(const FText& Text, bool bCollapse) const;
-	virtual void NativePreConstruct() override;
-	
-private:
 
+	void SetText_Value(const FText& Text, bool bCollapse) const;
+
+	virtual void NativePreConstruct() override;
+private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> Text_Label;
 

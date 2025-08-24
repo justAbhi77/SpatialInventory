@@ -23,6 +23,7 @@ public:
 
 	void Expand();
 
+	// using keyword is like typedef but more modern
 	using FuncType = TFunction<void(UInv_CompositeBase*)>;
 	virtual void ApplyFunction(FuncType Function) {}
 private:

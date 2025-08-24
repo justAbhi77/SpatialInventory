@@ -1,9 +1,8 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// 
 
 #include "InventoryPlugin.h"
 #include "MessageLogInitializationOptions.h"
 #include "MessageLogModule.h"
-
 
 #define LOCTEXT_NAMESPACE "FInventoryPluginModule"
 

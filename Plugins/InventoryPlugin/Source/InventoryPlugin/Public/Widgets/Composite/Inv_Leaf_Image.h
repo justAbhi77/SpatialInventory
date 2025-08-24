@@ -9,11 +9,13 @@
 class UImage;
 class USizeBox;
 
+/**
+* 
+*/
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_Leaf_Image : public UInv_Leaf
 {
 	GENERATED_BODY()
-
 public:
 	void SetImage(UTexture2D* Texture) const;
 

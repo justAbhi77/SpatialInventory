@@ -121,6 +121,7 @@ void UInv_SpatialInventory::OnItemHovered(UInv_InventoryItem* Item)
 	{
 		if(UInv_ItemDescription* DescriptionWidget = GetItemDescription())
 		{
+			// Assimilate the manifest into the item description widget
 			Manifest.AssimilateInventoryFragments(DescriptionWidget);
 			DescriptionWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
 
@@ -143,7 +144,8 @@ void UInv_SpatialInventory::OnItemUnHovered()
 	TimerManager.ClearTimer(DescriptionTimer);
 	TimerManager.ClearTimer(EquippedDescriptionTimer);
 
-	GetEquippedItemDescription()->SetVisibility(ESlateVisibility::Collapsed);
+	if(UInv_ItemDescription* EquippedItem = GetEquippedItemDescription())
+		EquippedItem->SetVisibility(ESlateVisibility::Collapsed);
 }
 
 bool UInv_SpatialInventory::HasHoverItem() const

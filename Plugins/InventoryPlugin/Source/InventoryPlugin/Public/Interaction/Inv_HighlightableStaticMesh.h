@@ -17,10 +17,9 @@ class INVENTORYPLUGIN_API UInv_HighlightableStaticMesh : public UStaticMeshCompo
 	GENERATED_BODY()
 public:
 	virtual void Highlight_Implementation() override;
+
 	virtual void UnHighlight_Implementation() override;
-
 private:
-
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	TObjectPtr<UMaterialInterface> HighlightMaterial;
 };
