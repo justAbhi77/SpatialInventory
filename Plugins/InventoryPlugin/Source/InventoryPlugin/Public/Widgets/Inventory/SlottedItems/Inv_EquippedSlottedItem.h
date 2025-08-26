@@ -7,7 +7,9 @@
 #include "Inv_SlottedItem.h"
 #include "Inv_EquippedSlottedItem.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEquippedSlottedItemClicked, class UInv_EquippedSlottedItem*, SlottedItem);
+class UInv_EquippedSlottedItem;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEquippedSlottedItemClicked, UInv_EquippedSlottedItem*, SlottedItem);
 
 UCLASS()
 class INVENTORYPLUGIN_API UInv_EquippedSlottedItem : public UInv_SlottedItem
@@ -21,7 +23,6 @@ public:
 
 	FEquippedSlottedItemClicked OnEquippedSlottedItemClicked;
 private:
-
 	UPROPERTY()
 	FGameplayTag EquipmentTypeTag;
 };

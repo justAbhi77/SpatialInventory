@@ -224,7 +224,7 @@ struct FInv_EquipmentFragment : public FInv_InventoryItemFragment
 	FGameplayTag GetEquipmentType() const { return EquipmentType; }
 	void SetEquippedActor(AInv_EquipActor* EquipActor);
 private:
-	UPROPERTY(EditAnywhere, Category = "Inventory")
+	UPROPERTY(EditAnywhere, Category = "Inventory", meta = (ExcludeBaseStruct))
 	TArray<TInstancedStruct<FInv_EquipModifier>> EquipModifiers;
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
