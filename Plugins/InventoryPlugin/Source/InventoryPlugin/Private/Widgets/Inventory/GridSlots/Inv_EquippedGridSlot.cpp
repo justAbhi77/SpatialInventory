@@ -60,16 +60,16 @@ UInv_EquippedSlottedItem* UInv_EquippedGridSlot::OnItemEquipped(UInv_InventoryIt
 
 	// Create the Equipped Slotted Item widget
 	EquippedSlottedItem = CreateWidget<UInv_EquippedSlottedItem>(GetOwningPlayer(), EquippedSlottedItemClass);
-	
+
 	// Set the Slotted Item's Inventory Item
 	EquippedSlottedItem->SetInventoryItem(Item);
-	
+
 	// Set the Slotted Item's Equipment Type Tag
 	EquippedSlottedItem->SetEquipmentTypeTag(EquipmentTag);
-	
+
 	// Hide the Stack Count widget on the Slotted Item
 	EquippedSlottedItem->UpdateStackCount(0);
-	
+
 	// Set Inventory Item on this class (the Equipped Grid Slot)
 	SetInventoryItem(Item);
 
@@ -81,9 +81,9 @@ UInv_EquippedSlottedItem* UInv_EquippedGridSlot::OnItemEquipped(UInv_InventoryIt
 	Brush.SetResourceObject(ImageFragment->GetIcon());
 	Brush.DrawAs = ESlateBrushDrawType::Image;
 	Brush.ImageSize = DrawSize;
-	
+
 	EquippedSlottedItem->SetImageBrush(Brush);
-	
+
 	// Add the Slotted Item as a child to this widget's Overlay
 	Overlay_Root->AddChildToOverlay(EquippedSlottedItem);
 	FGeometry OverlayGeometry = Overlay_Root->GetCachedGeometry();
