@@ -129,7 +129,7 @@ FInv_SlotAvailabilityResult UInv_InventoryGrid::HasRoomForItem(const FInv_ItemMa
 		AmountToFill = StackAmountOverride;
 
 	TSet<int32> CheckedIndices;
-	if(bCheckForSlottedItemsWithRoom)
+	if(bCheckForSlottedItemsWithRoom && Result.bStackable)
 		for(const auto& SlottedItem : SlottedItems)
 		{
 			if(SlottedItem.Value->GetInventoryItem()->GetItemManifest().GetItemType().MatchesTagExact(Manifest.GetItemType()))
@@ -522,7 +522,8 @@ void UInv_InventoryGrid::AssignHoverItem(UInv_InventoryItem* InventoryItem, cons
 	AssignHoverItem(InventoryItem);
 
 	HoverItem->SetPreviousGridIndex(PreviousGridIndex);
-	HoverItem->UpdateStackCount(InventoryItem->IsStackable() ? GridSlots[GridIndex]->GetStackCount() : 0);
+	if(InventoryItem)
+		HoverItem->UpdateStackCount(InventoryItem->IsStackable() ? GridSlots[GridIndex]->GetStackCount() : 0);
 }
 
 void UInv_InventoryGrid::RemoveItemFromGrid(UInv_InventoryItem* InventoryItem, const int32 GridIndex)
@@ -1055,6 +1056,8 @@ void UInv_InventoryGrid::OnHide()
 void UInv_InventoryGrid::PutHoverItemBack()
 {
 	if(!IsValid(HoverItem)) return;
+
+	if(!HoverItem->GetInventoryItem()) return;
 
 	FInv_SlotAvailabilityResult Result = HasRoomForItem(HoverItem->GetInventoryItem(), HoverItem->GetStackCount());
 	Result.Item = HoverItem->GetInventoryItem();
