@@ -1,4 +1,4 @@
-// 
+//
 
 #include "InventoryManagement/FastArray/Inv_FastArray.h"
 #include "InventoryManagement/Components/Inv_InventoryComponent.h"
@@ -19,24 +19,23 @@ TArray<UInv_InventoryItem*> FInv_InventoryFastArray::GetAllItems() const
 
 void FInv_InventoryFastArray::PreReplicatedRemove(const TArrayView<int32> RemovedIndices, int32 FinalSize)
 {
-	UInv_InventoryComponent* Ic = Cast<UInv_InventoryComponent>(OwnerComponent);
+	const UInv_InventoryComponent* Ic = Cast<UInv_InventoryComponent>(OwnerComponent);
 	if(!IsValid(Ic)) return;
 
-	for(int32 Index : RemovedIndices)
+	for(const int32 Index : RemovedIndices)
 		Ic->OnItemRemoved.Broadcast(Entries[Index].Item);
 }
 
 void FInv_InventoryFastArray::PostReplicatedAdd(const TArrayView<int32> AddedIndices, int32 FinalSize)
 {
-	
-	UInv_InventoryComponent* Ic = Cast<UInv_InventoryComponent>(OwnerComponent);
+	const UInv_InventoryComponent* Ic = Cast<UInv_InventoryComponent>(OwnerComponent);
 	if(!IsValid(Ic)) return;
 
-	for(int32 Index : AddedIndices)
+	for(const int32 Index : AddedIndices)
 		Ic->OnItemAdded.Broadcast(Entries[Index].Item);
 }
 
-UInv_InventoryItem* FInv_InventoryFastArray::AddEntry(UInv_ItemComponent* ItemComponent)
+UInv_InventoryItem* FInv_InventoryFastArray::AddEntry(const UInv_ItemComponent* ItemComponent)
 {
 	check(OwnerComponent);
 	AActor* OwningActor = OwnerComponent->GetOwner();
@@ -55,8 +54,8 @@ UInv_InventoryItem* FInv_InventoryFastArray::AddEntry(UInv_ItemComponent* ItemCo
 
 UInv_InventoryItem* FInv_InventoryFastArray::AddEntry(UInv_InventoryItem* Item)
 {
-    check(OwnerComponent);
-	AActor* OwningActor = OwnerComponent->GetOwner();
+	check(OwnerComponent);
+	const AActor* OwningActor = OwnerComponent->GetOwner();
 	check(OwningActor->HasAuthority());
 
 	FInv_InventoryEntry& NewEntry = Entries.AddDefaulted_GetRef();

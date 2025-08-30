@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #include "Player/Inv_PlayerController.h"
 #include "EnhancedInputComponent.h"
@@ -17,7 +17,7 @@ AInv_PlayerController::AInv_PlayerController()
 	ItemTraceChannel = ECC_GameTraceChannel1;
 }
 
-void AInv_PlayerController::Tick(float DeltaTime)
+void AInv_PlayerController::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -28,9 +28,8 @@ void AInv_PlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	if(IsValid(Subsystem))
-		for(UInputMappingContext* CurrentContext : DefaultIMCs)
+	if(UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()); IsValid(Subsystem))
+		for(const UInputMappingContext* CurrentContext : DefaultIMCs)
 			Subsystem->AddMappingContext(CurrentContext, 0);
 
 	InventoryComponent = FindComponentByClass<UInv_InventoryComponent>();
@@ -47,6 +46,7 @@ void AInv_PlayerController::SetupInputComponent()
 	EnhancedInputComponent->BindAction(ToggleInventoryAction, ETriggerEvent::Started, this, &AInv_PlayerController::ToggleInventory);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void AInv_PlayerController::PrimaryInteract()
 {
 	if(!ThisActor.IsValid()) return;
@@ -92,7 +92,7 @@ void AInv_PlayerController::TraceForItem()
 		if(UActorComponent* Highlightable = ThisActor->FindComponentByInterface(UInv_Highlightable::StaticClass()); IsValid(Highlightable))
 			IInv_Highlightable::Execute_Highlight(Highlightable);
 
-		UInv_ItemComponent* ItemComponent = ThisActor->FindComponentByClass<UInv_ItemComponent>();
+		const UInv_ItemComponent* ItemComponent = ThisActor->FindComponentByClass<UInv_ItemComponent>();
 		if(!IsValid(ItemComponent)) return;
 
 		if(IsValid(HUDWidget)) HUDWidget->ShowPickupMessage(ItemComponent->GetPickupMessage());
@@ -105,6 +105,7 @@ void AInv_PlayerController::TraceForItem()
 	}
 }
 
+// ReSharper disable once CppUE4BlueprintCallableFunctionMayBeConst
 void AInv_PlayerController::ToggleInventory()
 {
 	if(!InventoryComponent.IsValid()) return;

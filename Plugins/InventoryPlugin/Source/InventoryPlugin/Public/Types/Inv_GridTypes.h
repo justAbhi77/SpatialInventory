@@ -1,4 +1,4 @@
-// 
+//
 
 #pragma once
 
@@ -21,7 +21,7 @@ struct FInv_SlotAvailability
 	GENERATED_BODY()
 
 	FInv_SlotAvailability() {}
-	FInv_SlotAvailability(int32 ItemIndex, int32 Room, bool bHasItem) : Index(ItemIndex), AmountToFill(Room), bItemAtIndex(bHasItem) {}
+	FInv_SlotAvailability(const int32 ItemIndex, const int32 Room, const bool bHasItem) : Index(ItemIndex), AmountToFill(Room), bItemAtIndex(bHasItem) {}
 
 	int32 Index{INDEX_NONE};
 	int32 AmountToFill{0};

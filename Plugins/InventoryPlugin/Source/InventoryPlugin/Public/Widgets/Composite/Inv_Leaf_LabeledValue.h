@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -8,6 +8,9 @@
 
 class UTextBlock;
 
+/**
+ * Leaf widget that manages a group of label and its value in the widget
+ */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_Leaf_LabeledValue : public UInv_Leaf
 {

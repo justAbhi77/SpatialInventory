@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -10,7 +10,7 @@ class UImage;
 class USizeBox;
 
 /**
-* 
+* Leaf widget that manages an image in the widget
 */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_Leaf_Image : public UInv_Leaf

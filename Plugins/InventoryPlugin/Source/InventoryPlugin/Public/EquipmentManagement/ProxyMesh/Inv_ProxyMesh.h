@@ -1,14 +1,16 @@
-﻿// 
+﻿//
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Rendering/RenderCommandPipes.h"
 #include "Inv_ProxyMesh.generated.h"
 
 class UInv_EquipmentComponent;
 
+/**
+ * This class is used to display the character's mesh in the inventory menu.
+ */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API AInv_ProxyMesh : public AActor
 {

@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #include "Widgets/Inventory/GridSlots/Inv_EquippedGridSlot.h"
 #include "InventoryManagement/Utils/Inv_InventoryStatics.h"
@@ -15,7 +15,7 @@
 void UInv_EquippedGridSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	if(!IsAvailable()) return;
-	UInv_HoverItem* HoverItem = UInv_InventoryStatics::GetHoverItem(GetOwningPlayer());
+	const UInv_HoverItem* HoverItem = UInv_InventoryStatics::GetHoverItem(GetOwningPlayer());
 	if(!IsValid(HoverItem)) return;
 
 	if(HoverItem->GetItemType().MatchesTag(EquipmentTypeTag))
@@ -28,7 +28,7 @@ void UInv_EquippedGridSlot::NativeOnMouseEnter(const FGeometry& InGeometry, cons
 void UInv_EquippedGridSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
 	if(!IsAvailable()) return;
-	UInv_HoverItem* HoverItem = UInv_InventoryStatics::GetHoverItem(GetOwningPlayer());
+	const UInv_HoverItem* HoverItem = UInv_InventoryStatics::GetHoverItem(GetOwningPlayer());
 	if(!IsValid(HoverItem)) return;
 
 	if(IsValid(EquippedSlottedItem)) return;
@@ -50,7 +50,7 @@ UInv_EquippedSlottedItem* UInv_EquippedGridSlot::OnItemEquipped(UInv_InventoryIt
 {
 	// Check the Equipment Type Tag
 	if(!EquipmentTag.MatchesTagExact(EquipmentTypeTag)) return nullptr;
-	
+
 	// Get Grid Dimensions
 	const FInv_GridFragment* GridFragment = GetFragment<FInv_GridFragment>(Item, FragmentTags::GridFragment);
 	if(!GridFragment) return nullptr;
@@ -88,16 +88,15 @@ UInv_EquippedSlottedItem* UInv_EquippedGridSlot::OnItemEquipped(UInv_InventoryIt
 
 	// Add the Slotted Item as a child to this widget's Overlay
 	Overlay_Root->AddChildToOverlay(EquippedSlottedItem);
-	FGeometry OverlayGeometry = Overlay_Root->GetCachedGeometry();
-	auto OverlayPos = OverlayGeometry.Position;
-	auto OverlaySize = OverlayGeometry.Size;
+	const FGeometry OverlayGeometry = Overlay_Root->GetCachedGeometry();
+	const auto OverlaySize = OverlayGeometry.Size;
 
 	const float LeftPadding = OverlaySize.X / 2.f - DrawSize.X / 2.f;
 	const float TopPadding = OverlaySize.Y / 2.f - DrawSize.Y / 2.f;
 
 	UOverlaySlot* OverlaySlot = UWidgetLayoutLibrary::SlotAsOverlaySlot(EquippedSlottedItem);
 	OverlaySlot->SetPadding(FMargin(LeftPadding, TopPadding));
-	
+
 	// Return the Equipped Slotted Item widget
 	return EquippedSlottedItem;
 }

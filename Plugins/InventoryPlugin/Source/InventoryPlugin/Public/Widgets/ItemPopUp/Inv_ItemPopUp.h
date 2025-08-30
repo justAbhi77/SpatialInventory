@@ -1,8 +1,7 @@
-﻿// 
+﻿//
 
 #pragma once
 
-#include "Blueprint/WidgetLayoutLibrary.h"
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Inv_ItemPopUp.generated.h"
@@ -19,8 +18,7 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FPopUpMenuDrop, int32, Index);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FPopUpMenuConsume, int32, Index);
 
 /**
- * The item popup widget shows up when right-clicking on an item
- * in the inventory grid.
+ * The item popup widget shows up when right-clicking on an item in the inventory grid.
  */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_ItemPopUp : public UUserWidget
@@ -28,6 +26,7 @@ class INVENTORYPLUGIN_API UInv_ItemPopUp : public UUserWidget
 	GENERATED_BODY()
 public:
 	virtual void NativeOnInitialized() override;
+
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 
 	FPopUpMenuSplit OnSplit;
@@ -46,11 +45,10 @@ public:
 
 	FVector2D GetBoxSize() const;
 
-	void SetGridIndex(int32 Index) { GridIndex = Index; }
+	void SetGridIndex(const int32 Index) { GridIndex = Index; }
 
 	int32 GetGridIndex() const { return GridIndex; }
 private:
-
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> Button_Split;
 

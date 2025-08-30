@@ -1,4 +1,4 @@
-// 
+//
 
 #pragma once
 
@@ -8,15 +8,13 @@
 #include "GameplayTagContainer.h"
 #include "Inv_ItemManifest.generated.h"
 
-/**
- * The Item Manifest contains all of the necessary data
- * for creating a new Inventory Item
- */
-
 class UInv_InventoryItem;
 struct FInv_ItemFragment;
 class UInv_CompositeBase;
 
+/**
+ * The Item Manifest contains all the necessary data for creating a new Inventory Item
+ */
 USTRUCT(BlueprintType)
 struct INVENTORYPLUGIN_API FInv_ItemManifest
 {
@@ -37,7 +35,7 @@ struct INVENTORYPLUGIN_API FInv_ItemManifest
 	template<typename T> requires std::derived_from<T, FInv_ItemFragment>
 	T* GetFragmentOfTypeMutable();
 
-	void SpawnPickupActor(const UObject* WorldContextObject, const FVector& SpawnLocation, const FRotator& SpawnRotation);
+	void SpawnPickupActor(const UObject* WorldContextObject, const FVector& SpawnLocation, const FRotator& SpawnRotation) const;
 
 	void AssimilateInventoryFragments(UInv_CompositeBase* Composite) const;
 

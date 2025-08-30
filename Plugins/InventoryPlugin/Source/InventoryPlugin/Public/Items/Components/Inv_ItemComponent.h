@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -9,7 +9,8 @@
 
 
 /**
- * 
+ * Component that can be added to any Actor to make it an inventory item.
+ * Contains an Item Manifest that defines the item's properties.
  */
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable, PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_ItemComponent : public UActorComponent
@@ -27,13 +28,14 @@ public:
 
 	void PickedUp();
 
-	void InitItemManifest(FInv_ItemManifest CopyOfManifest);
+	void InitItemManifest(const FInv_ItemManifest &CopyOfManifest);
 
 	FInv_ItemManifest& GetItemManifestMutable() { return ItemManifest; }
 protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Inventory")
+	// ReSharper disable once CppUEBlueprintImplementableEventNotImplemented
 	void OnPickedUp();
 
 private:

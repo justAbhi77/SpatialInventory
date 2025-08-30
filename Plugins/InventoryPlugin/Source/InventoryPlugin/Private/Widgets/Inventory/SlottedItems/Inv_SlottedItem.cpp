@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #include "Widgets/Inventory/SlottedItems/Inv_SlottedItem.h"
 #include "Items/Inv_InventoryItem.h"
@@ -16,7 +16,7 @@ void UInv_SlottedItem::SetImageBrush(const FSlateBrush& Brush) const
 	Image_Icon->SetBrush(Brush);
 }
 
-void UInv_SlottedItem::UpdateStackCount(int32 StackCount)
+void UInv_SlottedItem::UpdateStackCount(const int32 StackCount) const
 {
 	if(StackCount > 0)
 	{

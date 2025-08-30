@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -19,7 +19,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FItemEquipStatusChanged, UInv_Invent
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInventoryMenuToggled, bool, bOpen);
 
 /**
- * 
+ * An inventory component that can be added to any actor to provide inventory functionality.
  */
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable, PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_InventoryComponent : public UActorComponent
@@ -52,7 +52,7 @@ public:
 	UFUNCTION(Server, Reliable)
 	void Server_DropItem(UInv_InventoryItem* Item, int32 StackCount);
 
-	void SpawnDroppedItem(UInv_InventoryItem* Item, int32 StackCount);
+	void SpawnDroppedItem(UInv_InventoryItem* Item, int32 StackCount) const;
 
 	UFUNCTION(Server, Reliable)
 	void Server_ConsumeItem(UInv_InventoryItem* Item, int32 StackCount);

@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #include "Items/Components/Inv_ItemComponent.h"
 #include "Delegates/IDelegateInstance.h"
@@ -23,23 +23,23 @@ void UInv_ItemComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 	DOREPLIFETIME(ThisClass, ItemManifest);
 }
 
-void UInv_ItemComponent::BeginPlay() 
+void UInv_ItemComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if(AActor* Owner = GetOwner())
+	if(const AActor* Owner = GetOwner())
 		if(!Owner->GetIsReplicated())
 		{
 			UE_LOG(LogActor, BreakOnLog, TEXT("Item Component on Actor %s is Not Replicated."), *Owner->GetName());
 
 #if WITH_EDITOR
 			if(!Owner->HasAuthority()) return;
-			auto messageLog = FMessageLog(MessageLogListing);
-			messageLog.Error(FText::FromString(FString::Printf(TEXT("Item Component on Actor %s is Not Replicated."), *Owner->GetName())));
+			auto MessageLog = FMessageLog(MESSAGE_LOG_LISTING);
+			MessageLog.Error(FText::FromString(FString::Printf(TEXT("Item Component on Actor %s is Not Replicated."), *Owner->GetName())));
 
 			TSharedPtr<FDelegateHandle> ShutdownMessage = MakeShared<FDelegateHandle>();
 			*ShutdownMessage = FEditorDelegates::ShutdownPIE.AddLambda([ShutdownMessage](bool bPlayInEditor){
-				FMessageLog(MessageLogListing).Notify(FText::FromString("Inventory Item Actor Error"), EMessageSeverity::Error, true);
+				FMessageLog(MESSAGE_LOG_LISTING).Notify(FText::FromString("Inventory Item Actor Error"), EMessageSeverity::Error, true);
 				FEditorDelegates::ShutdownPIE.Remove(*ShutdownMessage);
 			});
 #endif // WITH_EDITOR
@@ -53,7 +53,7 @@ void UInv_ItemComponent::PickedUp()
 	GetOwner()->Destroy();
 }
 
-void UInv_ItemComponent::InitItemManifest(FInv_ItemManifest CopyOfManifest)
+void UInv_ItemComponent::InitItemManifest(const FInv_ItemManifest &CopyOfManifest)
 {
 	ItemManifest = CopyOfManifest;
 }

@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #include "InventoryManagement/Components/Inv_InventoryComponent.h"
 #include "Widgets/Inventory/InventoryBase/Inv_InventoryBase.h"
@@ -27,7 +27,7 @@ void UInv_InventoryComponent::GetLifetimeReplicatedProps(TArray<FLifetimePropert
 void UInv_InventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	ConstructInventory();
 }
 
@@ -62,7 +62,7 @@ void UInv_InventoryComponent::OpenInventoryMenu()
 
 	if(!OwningController.IsValid()) return;
 
-	FInputModeGameAndUI InputMode;
+	const FInputModeGameAndUI InputMode;
 	OwningController->SetInputMode(InputMode);
 	OwningController->SetShowMouseCursor(true);
 }
@@ -76,7 +76,7 @@ void UInv_InventoryComponent::CloseInventoryMenu()
 
 	if(!OwningController.IsValid()) return;
 
-	FInputModeGameOnly InputMode;
+	const FInputModeGameOnly InputMode;
 	OwningController->SetInputMode(InputMode);
 	OwningController->SetShowMouseCursor(false);
 }
@@ -93,7 +93,7 @@ void UInv_InventoryComponent::TryAddItem(UInv_ItemComponent* ItemComponent)
 		NoRoomInInventory.Broadcast();
 		return;
 	}
-	
+
 	if (Result.Item.IsValid() && Result.bStackable)
 	{
 		// Add stacks to an item that already exists in the inventory.
@@ -109,7 +109,7 @@ void UInv_InventoryComponent::TryAddItem(UInv_ItemComponent* ItemComponent)
 	}
 }
 
-void UInv_InventoryComponent::Server_AddNewItem_Implementation(UInv_ItemComponent* ItemComponent, int32 StackCount, int32 Remainder)
+void UInv_InventoryComponent::Server_AddNewItem_Implementation(UInv_ItemComponent* ItemComponent, const int32 StackCount, const int32 Remainder)
 {
 	UInv_InventoryItem* NewItem = InventoryList.AddEntry(ItemComponent);
 	NewItem->SetTotalStackCount(StackCount);
@@ -123,7 +123,7 @@ void UInv_InventoryComponent::Server_AddNewItem_Implementation(UInv_ItemComponen
 		StackableFragment->SetStackCount(Remainder);
 }
 
-void UInv_InventoryComponent::Server_AddStacksToItem_Implementation(UInv_ItemComponent* ItemComponent, int32 StackCount, int32 Remainder)
+void UInv_InventoryComponent::Server_AddStacksToItem_Implementation(UInv_ItemComponent* ItemComponent, const int32 StackCount, const int32 Remainder)
 {
 	const FGameplayTag& ItemType = IsValid(ItemComponent) ? ItemComponent->GetItemManifest().GetItemType() : FGameplayTag::EmptyTag;
 	UInv_InventoryItem* Item = InventoryList.FindFirstItemByType(ItemType);
@@ -143,11 +143,9 @@ void UInv_InventoryComponent::AddRepSubObj(UObject* SubObj)
 		AddReplicatedSubObject(SubObj);
 }
 
-void UInv_InventoryComponent::Server_DropItem_Implementation(UInv_InventoryItem* Item, int32 StackCount)
+void UInv_InventoryComponent::Server_DropItem_Implementation(UInv_InventoryItem* Item, const int32 StackCount)
 {
-	const int32 NewStackCount = Item->GetTotalStackCount() - StackCount;
-
-	if(NewStackCount <= 0)
+	if(const int32 NewStackCount = Item->GetTotalStackCount() - StackCount; NewStackCount <= 0)
 		InventoryList.RemoveEntry(Item);
 	else
 		Item->SetTotalStackCount(NewStackCount);
@@ -155,7 +153,7 @@ void UInv_InventoryComponent::Server_DropItem_Implementation(UInv_InventoryItem*
 	SpawnDroppedItem(Item, StackCount);
 }
 
-void UInv_InventoryComponent::SpawnDroppedItem(UInv_InventoryItem* Item, int32 StackCount)
+void UInv_InventoryComponent::SpawnDroppedItem(UInv_InventoryItem* Item, const int32 StackCount) const
 {
 	// Spawn the dropped item in the level
 
@@ -175,10 +173,9 @@ void UInv_InventoryComponent::SpawnDroppedItem(UInv_InventoryItem* Item, int32 S
 	ItemManifest.SpawnPickupActor(this, SpawnLocation, SpawnRotation);
 }
 
-void UInv_InventoryComponent::Server_ConsumeItem_Implementation(UInv_InventoryItem* Item, int32 StackCount)
+void UInv_InventoryComponent::Server_ConsumeItem_Implementation(UInv_InventoryItem* Item, const int32 StackCount)
 {
-	const int32 NewStackCount = Item->GetTotalStackCount() - StackCount;
-	if(NewStackCount <= 0)
+	if(const int32 NewStackCount = Item->GetTotalStackCount() - StackCount; NewStackCount <= 0)
 		InventoryList.RemoveEntry(Item);
 	else
 		Item->SetTotalStackCount(NewStackCount);

@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #include "Widgets/Composite/Inv_Composite.h"
 #include "Blueprint/WidgetTree.h"
@@ -17,14 +17,14 @@ void UInv_Composite::NativeOnInitialized()
 	});
 }
 
-void UInv_Composite::ApplyFunction(FuncType Function)
+void UInv_Composite::ApplyFunction(FUncType Function)
 {
-	for(auto& Child : Children)
+	for(const auto& Child : Children)
 		Child->ApplyFunction(Function);
 }
 
 void UInv_Composite::Collapse()
 {
-	for(auto& Child : Children)
+	for(const auto& Child : Children)
 		Child->Collapse();
 }

@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -8,7 +8,7 @@
 #include "Inv_CompositeBase.generated.h"
 
 /**
- * 
+ * Base Widget class for Composite Pattern
  */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_CompositeBase : public UUserWidget
@@ -24,8 +24,8 @@ public:
 	void Expand();
 
 	// using keyword is like typedef but more modern
-	using FuncType = TFunction<void(UInv_CompositeBase*)>;
-	virtual void ApplyFunction(FuncType Function) {}
+	using FUncType = TFunction<void(UInv_CompositeBase*)>;
+	virtual void ApplyFunction(FUncType Function) {}
 private:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	FGameplayTag FragmentTag;

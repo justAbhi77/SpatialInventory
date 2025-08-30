@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -15,6 +15,9 @@ struct FInv_EquipmentFragment;
 class AInv_EquipActor;
 struct FGameplayTag;
 
+/**
+ * This component manages the equipment system for an actor, allowing items to be equipped and unequipped visually on the mesh.
+ */
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent), Blueprintable, PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_EquipmentComponent : public UActorComponent
 {
@@ -22,7 +25,7 @@ class INVENTORYPLUGIN_API UInv_EquipmentComponent : public UActorComponent
 public:
 	void SetOwningSkeletalMesh(USkeletalMeshComponent* OwningMesh);
 
-	void SetIsProxy(bool bProxy) { bIsProxy = bProxy; }
+	void SetIsProxy(const bool bProxy) { bIsProxy = bProxy; }
 
 	void InitializeOwner(APlayerController* PlayerController);
 protected:
@@ -42,7 +45,7 @@ private:
 
 	void InitInventoryComponent();
 
-	AInv_EquipActor* SpawnEquippedActor(FInv_EquipmentFragment* EquipmentFragment, const FInv_ItemManifest& Manifest, USkeletalMeshComponent* AttachMesh);
+	AInv_EquipActor* SpawnEquippedActor(FInv_EquipmentFragment* EquipmentFragment, const FInv_ItemManifest& Manifest, USkeletalMeshComponent* AttachMesh) const;
 
 	UPROPERTY()
 	TArray<TObjectPtr<AInv_EquipActor>> EquippedActors;

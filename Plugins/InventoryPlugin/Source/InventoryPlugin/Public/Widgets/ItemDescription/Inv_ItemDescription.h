@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -9,7 +9,9 @@
 class USizeBox;
 
 /**
- * 
+ * Simple wrapper for a size box to hold item descriptions.
+ * This allows us to easily get the size of the description box.
+ * Managed through the composite pattern by the inventory item.
  */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_ItemDescription : public UInv_Composite

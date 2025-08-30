@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -14,7 +14,7 @@ class UOverlay;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FEquippedGridSlotClicked, UInv_EquippedGridSlot*, GridSlot, const FGameplayTag&, EquipmentTypeTag);
 
 /**
-* 
+* Specialized grid slot for equippable items, such as armor or weapons. It visually indicates the type of equipment it accepts and manages the equipped item.
 */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_EquippedGridSlot : public UInv_GridSlot

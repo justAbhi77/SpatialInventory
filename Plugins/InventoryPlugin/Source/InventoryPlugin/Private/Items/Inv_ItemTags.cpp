@@ -1,4 +1,4 @@
-// 
+//
 
 #include "Items/Inv_ItemTags.h"
 
@@ -11,9 +11,9 @@ namespace GameItems
 			UE_DEFINE_GAMEPLAY_TAG(Axe, "GameItems.Equipment.Weapons.Axe")
 			UE_DEFINE_GAMEPLAY_TAG(Sword, "GameItems.Equipment.Weapons.Sword")
 			UE_DEFINE_GAMEPLAY_TAG(Knife, "GameItems.Equipment.Weapons.Knife")
-			UE_DEFINE_GAMEPLAY_TAG(Bloodthorn, "GameItems.Equipment.Weapons.Bloodthorn")
+			UE_DEFINE_GAMEPLAY_TAG(Bloodthorn, "GameItems.Equipment.Weapons.BloodThorn")
 			UE_DEFINE_GAMEPLAY_TAG(NightsEdge, "GameItems.Equipment.Weapons.NightsEdge")
-			UE_DEFINE_GAMEPLAY_TAG(Shadowbane, "GameItems.Equipment.Weapons.Shadowbane")
+			UE_DEFINE_GAMEPLAY_TAG(Shadowbane, "GameItems.Equipment.Weapons.ShadowBane")
 			UE_DEFINE_GAMEPLAY_TAG(Staff, "GameItems.Equipment.Weapons.Staff")
 		}
 

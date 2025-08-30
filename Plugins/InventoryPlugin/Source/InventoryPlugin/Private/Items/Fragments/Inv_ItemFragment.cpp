@@ -1,4 +1,4 @@
-// 
+//
 
 #include "Items/Fragments/Inv_ItemFragment.h"
 #include "Engine/Engine.h"
@@ -43,7 +43,7 @@ void FInv_ImageFragment::Assimilate(UInv_CompositeBase* Composite) const
 	FInv_InventoryItemFragment::Assimilate(Composite);
 	if(!MatchesWidgetTag(Composite)) return;
 
-	UInv_Leaf_Image* Image = Cast<UInv_Leaf_Image>(Composite);
+	const UInv_Leaf_Image* Image = Cast<UInv_Leaf_Image>(Composite);
 	if(!IsValid(Image)) return;
 
 	Image->SetImage(Icon);
@@ -56,7 +56,7 @@ void FInv_TextFragment::Assimilate(UInv_CompositeBase* Composite) const
 	FInv_InventoryItemFragment::Assimilate(Composite);
 	if(!MatchesWidgetTag(Composite)) return;
 
-	UInv_Leaf_Text* LeafText = Cast<UInv_Leaf_Text>(Composite);
+	const UInv_Leaf_Text* LeafText = Cast<UInv_Leaf_Text>(Composite);
 	if(!IsValid(LeafText)) return;
 
 	LeafText->SetText(FragmentText);
@@ -66,8 +66,8 @@ void FInv_LabeledNumberFragment::Assimilate(UInv_CompositeBase* Composite) const
 {
 	FInv_InventoryItemFragment::Assimilate(Composite);
 	if(!MatchesWidgetTag(Composite)) return;
-	
-	UInv_Leaf_LabeledValue* LabeledValue = Cast<UInv_Leaf_LabeledValue>(Composite);
+
+	const UInv_Leaf_LabeledValue* LabeledValue = Cast<UInv_Leaf_LabeledValue>(Composite);
 	if(!IsValid(LabeledValue)) return;
 
 	LabeledValue->SetText_Label(Text_Label, bCollapseLabel);
@@ -75,7 +75,7 @@ void FInv_LabeledNumberFragment::Assimilate(UInv_CompositeBase* Composite) const
 	FNumberFormattingOptions Options;
 	Options.MinimumFractionalDigits = MinFractionalDigits;
 	Options.MaximumFractionalDigits = MaxFractionalDigits;
-	
+
 	LabeledValue->SetText_Value(FText::AsNumber(Value, &Options), bCollapseValue);
 }
 
@@ -193,40 +193,20 @@ void FInv_EquipmentFragment::SetEquippedActor(AInv_EquipActor* EquipActor)
 
 void FInv_ArmorModifier::OnEquip(APlayerController* PC)
 {
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		5.f,
-		FColor::Green,
-		FString::Printf(TEXT("Item equipped. Armor increased by: %f"),
-			GetValue()));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Item equipped. Armor increased by: %f"), GetValue()));
 }
 
 void FInv_ArmorModifier::OnUnequip(APlayerController* PC)
 {
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		5.f,
-		FColor::Red,
-		FString::Printf(TEXT("Item unequipped. Armor decreased by: %f"),
-			GetValue()));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Item unequipped. Armor decreased by: %f"), GetValue()));
 }
 
 void FInv_DamageModifier::OnEquip(APlayerController* PC)
 {
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		5.f,
-		FColor::Green,
-		FString::Printf(TEXT("Item equipped. Damage increased by: %f"),
-			GetValue()));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Item equipped. Damage increased by: %f"), GetValue()));
 }
 
 void FInv_DamageModifier::OnUnequip(APlayerController* PC)
 {
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		5.f,
-		FColor::Red,
-		FString::Printf(TEXT("Item equipped. Damage increased by: %f"),
-			GetValue()));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Item equipped. Damage increased by: %f"), GetValue()));
 }

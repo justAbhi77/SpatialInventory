@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -7,8 +7,10 @@
 #include "Inv_WidgetUtils.generated.h"
 
 
+class UWidget;
+
 /**
- * 
+ * Utility functions for widgets.
  */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_WidgetUtils : public UBlueprintFunctionLibrary

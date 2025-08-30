@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -7,7 +7,7 @@
 #include "Inv_CharacterDisplay.generated.h"
 
 /**
- * 
+ * Widget to display a character mesh in UI that can be rotated by dragging the mouse.
  */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_CharacterDisplay : public UUserWidget
@@ -27,6 +27,8 @@ private:
 	bool bIsDragging{false};
 	TWeakObjectPtr<USkeletalMeshComponent> Mesh;
 
-	FVector2D CurrentPosition;
-	FVector2D LastPosition;
+	FVector2D CurrentPosition, LastPosition;
+
+	UPROPERTY(EditAnywhere)
+	bool bShouldStopWhenMouseLeaves{false};
 };

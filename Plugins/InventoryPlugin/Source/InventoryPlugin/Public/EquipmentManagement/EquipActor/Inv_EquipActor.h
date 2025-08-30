@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -7,6 +7,9 @@
 #include "GameplayTagContainer.h"
 #include "Inv_EquipActor.generated.h"
 
+/**
+ * This class represents an actor which can be equipped through the inventory system.
+ */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API AInv_EquipActor : public AActor
 {
@@ -16,7 +19,7 @@ public:
 
 	FGameplayTag GetEquipmentType() const { return EquipmentType; }
 
-	void SetEquipmentType(FGameplayTag Type) { EquipmentType = Type; }
+	void SetEquipmentType(const FGameplayTag Type) { EquipmentType = Type; }
 private:
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	FGameplayTag EquipmentType;

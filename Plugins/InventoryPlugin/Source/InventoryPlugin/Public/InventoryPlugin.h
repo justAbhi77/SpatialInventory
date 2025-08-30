@@ -1,11 +1,11 @@
-// 
+//
 
 #pragma once
 
 #include "Modules/ModuleManager.h"
 
-#define MessageLogListing "Inventory Plugin"
-#define MessageLogLabel "Inventory Plugin Errors"
+#define MESSAGE_LOG_LISTING "Inventory Plugin"
+#define MESSAGE_LOG_LABEL "Inventory Plugin Errors"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogInventory, Log, All);
 

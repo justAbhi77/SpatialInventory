@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -13,13 +13,12 @@ class UInv_HUDWidget;
 class UInv_InventoryComponent;
 
 /**
- * 
+ * Player controller for inventory plugin
  */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API AInv_PlayerController : public APlayerController
 {
 	GENERATED_BODY()
-
 public:
 	AInv_PlayerController();
 	virtual void Tick(float DeltaTime) override;
@@ -28,8 +27,8 @@ public:
 	void ToggleInventory();
 protected:
 	virtual void BeginPlay() override;
-	virtual void SetupInputComponent() override;
 
+	virtual void SetupInputComponent() override;
 private:
 	void PrimaryInteract();
 

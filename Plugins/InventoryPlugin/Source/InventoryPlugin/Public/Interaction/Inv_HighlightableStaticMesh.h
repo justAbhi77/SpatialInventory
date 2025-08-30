@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -9,7 +9,7 @@
 
 
 /**
- * 
+ * Custom static mesh component that implements the IInv_Highlightable interface.
  */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_HighlightableStaticMesh : public UStaticMeshComponent, public IInv_Highlightable

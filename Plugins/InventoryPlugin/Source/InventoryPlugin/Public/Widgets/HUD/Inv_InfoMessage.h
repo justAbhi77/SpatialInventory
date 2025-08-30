@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -8,6 +8,10 @@
 
 class UTextBlock;
 
+/**
+ * Widget for displaying informational messages to the player.
+ * Managed by the Inventory HUD.
+ */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_InfoMessage : public UUserWidget
 {
@@ -22,9 +26,7 @@ public:
 	void MessageHide();
 
 	void SetMessage(const FText& Message);
-
 private:
-
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> Text_Message;
 

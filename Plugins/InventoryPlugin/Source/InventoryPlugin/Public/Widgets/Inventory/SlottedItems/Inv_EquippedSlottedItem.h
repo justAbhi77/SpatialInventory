@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -11,13 +11,16 @@ class UInv_EquippedSlottedItem;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEquippedSlottedItemClicked, UInv_EquippedSlottedItem*, SlottedItem);
 
+/**
+ * Specialized slotted item for equippable items.
+ */
 UCLASS()
 class INVENTORYPLUGIN_API UInv_EquippedSlottedItem : public UInv_SlottedItem
 {
 	GENERATED_BODY()
 public:
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
-	
+
 	void SetEquipmentTypeTag(const FGameplayTag& Tag) { EquipmentTypeTag = Tag; }
 	FGameplayTag GetEquipmentTypeTag() const { return EquipmentTypeTag; }
 

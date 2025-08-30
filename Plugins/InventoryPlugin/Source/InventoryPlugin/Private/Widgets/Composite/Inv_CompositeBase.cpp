@@ -1,5 +1,4 @@
-﻿// 
-
+﻿//
 
 #include "Widgets/Composite/Inv_CompositeBase.h"
 

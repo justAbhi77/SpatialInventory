@@ -1,4 +1,4 @@
-// 
+//
 
 #pragma once
 
@@ -35,7 +35,7 @@ struct FInv_InventoryFastArray : public FFastArraySerializer
 	GENERATED_BODY()
 
 	FInv_InventoryFastArray() : OwnerComponent(nullptr) {}
-	FInv_InventoryFastArray(UActorComponent* InOwnerComponent) : OwnerComponent(InOwnerComponent) {}
+	explicit FInv_InventoryFastArray(UActorComponent* InOwnerComponent) : OwnerComponent(InOwnerComponent) {}
 
 	TArray<UInv_InventoryItem*> GetAllItems() const;
 
@@ -48,7 +48,7 @@ struct FInv_InventoryFastArray : public FFastArraySerializer
 		return FastArrayDeltaSerialize<FInv_InventoryEntry, FInv_InventoryFastArray>(Entries, DeltaParams, *this);
 	}
 
-	UInv_InventoryItem* AddEntry(UInv_ItemComponent* ItemComponent);
+	UInv_InventoryItem* AddEntry(const UInv_ItemComponent* ItemComponent);
 
 	UInv_InventoryItem* AddEntry(UInv_InventoryItem* Item);
 

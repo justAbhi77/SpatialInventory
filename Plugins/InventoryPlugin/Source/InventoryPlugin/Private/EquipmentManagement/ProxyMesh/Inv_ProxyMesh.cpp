@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #include "EquipmentManagement/ProxyMesh/Inv_ProxyMesh.h"
 #include "EquipmentManagement/Components/Inv_EquipmentComponent.h"
@@ -28,7 +28,7 @@ void AInv_ProxyMesh::BeginPlay()
 
 void AInv_ProxyMesh::DelayedInitializeOwner()
 {
-	UWorld* World = GetWorld();
+	const UWorld* World = GetWorld();
 	if(!IsValid(World))
 	{
 		DelayedInitialization();
@@ -42,7 +42,7 @@ void AInv_ProxyMesh::DelayedInitializeOwner()
 		return;
 	}
 
-	ACharacter* Character = Cast<ACharacter>(PC->GetPawn());
+	const ACharacter* Character = Cast<ACharacter>(PC->GetPawn());
 	if(!IsValid(Character))
 	{
 		DelayedInitialization();
@@ -65,8 +65,5 @@ void AInv_ProxyMesh::DelayedInitializeOwner()
 
 void AInv_ProxyMesh::DelayedInitialization()
 {
-	// FTimerDelegate TimerDelegate;
-	// TimerDelegate.BindUObject(this, &ThisClass::DelayedInitializeOwner);
-	// GetWorld()->GetTimerManager().SetTimerForNextTick(TimerDelegate);
 	GetWorld()->GetTimerManager().SetTimer(TimerHandleForNextTick, this, &ThisClass::DelayedInitializeOwner, 0.1f, false);
 }

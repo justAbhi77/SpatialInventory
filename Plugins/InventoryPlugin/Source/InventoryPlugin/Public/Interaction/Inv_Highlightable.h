@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -15,7 +15,7 @@ class UInv_Highlightable : public UInterface
 };
 
 /**
- * 
+ * Any actor that implements this interface can be highlighted/unhighlighted by the inventory system when the player looks at it.
  */
 class INVENTORYPLUGIN_API IInv_Highlightable
 {

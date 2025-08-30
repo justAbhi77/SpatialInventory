@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -15,9 +15,11 @@ class UInv_ItemDescription;
 class UInv_HoverItem;
 struct FGameplayTag;
 class UInv_EquippedGridSlot;
+class UInv_EquippedSlottedItem;
 
 /**
- * 
+ * A spatial, grid-based inventory manager widget.
+ * Has multiple tabs for different item categories.
  */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_SpatialInventory : public UInv_InventoryBase
@@ -71,8 +73,8 @@ private:
 
 	UFUNCTION()
 	void ShowCraftables();
-	
-	void DisableButton(UButton* Button);
+
+	void DisableButton(UButton* Button) const;
 
 	void SetActiveGrid(UInv_InventoryGrid* Grid, UButton* Button);
 
@@ -102,18 +104,18 @@ private:
 	UFUNCTION()
 	void EquippedGridSlotClicked(UInv_EquippedGridSlot* EquippedGridSlot, const FGameplayTag& EquipmentTypeTag);
 
-	bool CanEquipHoverItem(UInv_EquippedGridSlot* EquippedGridSlot, const FGameplayTag& EquipmentTypeTag) const;
+	bool CanEquipHoverItem(const UInv_EquippedGridSlot* EquippedGridSlot, const FGameplayTag& EquipmentTypeTag) const;
 
 	UFUNCTION()
 	void EquippedSlottedItemClicked(UInv_EquippedSlottedItem* EquippedSlottedItem);
 
 	UInv_EquippedGridSlot* FindSlotWithEquippedItem(UInv_InventoryItem* EquippedItem) const;
 
-	void ClearSlotOfItem(UInv_EquippedGridSlot* EquippedGridSlot);
+	static void ClearSlotOfItem(UInv_EquippedGridSlot* EquippedGridSlot);
 
 	void RemoveEquippedSlottedItem(UInv_EquippedSlottedItem* EquippedSlottedItem);
 
-	void MakeEquippedSlottedItem(UInv_EquippedSlottedItem* EquippedSlottedItem, UInv_EquippedGridSlot* EquippedGridSlot, UInv_InventoryItem* ItemToEquip);
+	void MakeEquippedSlottedItem(const UInv_EquippedSlottedItem* EquippedSlottedItem, UInv_EquippedGridSlot* EquippedGridSlot, UInv_InventoryItem* ItemToEquip);
 
 	void BroadcastSlotClickedDelegates(UInv_InventoryItem* ItemToEquip, UInv_InventoryItem* ItemToUnequip) const;
 

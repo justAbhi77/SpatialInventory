@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 
 #include "Widgets/ItemPopUp/Inv_ItemPopUp.h"
@@ -42,7 +42,8 @@ void UInv_ItemPopUp::ConsumeButtonClicked()
 		RemoveFromParent();
 }
 
-void UInv_ItemPopUp::SliderValueChanged(float Value)
+// ReSharper disable once CppMemberFunctionMayBeConst
+void UInv_ItemPopUp::SliderValueChanged(const float Value)
 {
 	Text_SplitAmount->SetText(FText::AsNumber(FMath::Floor(Value)));
 }

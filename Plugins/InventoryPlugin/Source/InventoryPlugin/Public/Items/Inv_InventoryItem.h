@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -8,7 +8,7 @@
 #include "Inv_InventoryItem.generated.h"
 
 /**
- * 
+ * Basic unreal class to store data about an inventory item
  */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_InventoryItem : public UObject
@@ -29,7 +29,7 @@ public:
 
 	int32 GetTotalStackCount() const { return TotalStackCount; }
 
-	void SetTotalStackCount(int32 Count) { TotalStackCount = Count; }
+	void SetTotalStackCount(const int32 Count) { TotalStackCount = Count; }
 
 	bool IsConsumable() const;
 private:

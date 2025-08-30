@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -23,7 +23,9 @@ enum class EInv_GridSlotState : uint8;
 class UInv_ItemPopUp;
 
 /**
- * 
+ * Grid based inventory widget for spatial inventories.
+ * Supports drag and drop, stacking, splitting, and item swapping.
+ * Works with UInv_InventoryComponent to manage inventory items.
  */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_InventoryGrid : public UUserWidget
@@ -40,7 +42,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void ConstructGrid();
-	
+
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void CalculateTileSize(FVector2D DesiredSize);
 
@@ -120,19 +122,19 @@ private:
 	UPROPERTY()
 	TMap<int32, TObjectPtr<UInv_SlottedItem>> SlottedItems;
 
-	bool IsIndexClaimed(const TSet<int32>& CheckedIndices, const int32 Index) const;
+	static bool IsIndexClaimed(const TSet<int32>& CheckedIndices, const int32 Index);
 
 	bool HasRoomAtIndex(const UInv_GridSlot* GridSlot, const FIntPoint& Dimensions, const TSet<int32>& CheckedIndices, TSet<int32>& OutTentativelyClaimed, const FGameplayTag& ItemType, const int32 MaxStackSize);
 
-	FIntPoint GetItemDimensions(const FInv_ItemManifest& Manifest) const;
+	static FIntPoint GetItemDimensions(const FInv_ItemManifest& Manifest);
 
-	bool CheckSlotConstraints(const UInv_GridSlot* GridSlot, const UInv_GridSlot* SubGridSlot, const TSet<int32>& CheckedIndices, TSet<int32>& OutTentativelyClaimed, const FGameplayTag& ItemType, const int32 MaxStackSize) const;
+	static bool CheckSlotConstraints(const UInv_GridSlot* GridSlot, const UInv_GridSlot* SubGridSlot, const TSet<int32>& CheckedIndices, TSet<int32>& OutTentativelyClaimed, const FGameplayTag& ItemType, const int32 MaxStackSize);
 
-	bool HasValidItem(const UInv_GridSlot* GridSlot) const;
+	static bool HasValidItem(const UInv_GridSlot* GridSlot);
 
-	bool IsUpperLeftSlot(const UInv_GridSlot* GridSlot, const UInv_GridSlot* SubGridSlot) const;
+	static bool IsUpperLeftSlot(const UInv_GridSlot* GridSlot, const UInv_GridSlot* SubGridSlot);
 
-	bool DoesItemTypeMatch(const UInv_InventoryItem* SubItem, const FGameplayTag& ItemType) const;
+	static bool DoesItemTypeMatch(const UInv_InventoryItem* SubItem, const FGameplayTag& ItemType);
 
 	bool IsInGridBounds(const int32 StartIndex, const FIntPoint& ItemDimensions) const;
 
@@ -146,9 +148,9 @@ private:
 	UFUNCTION()
 	void OnSlottedItemClicked(int32 GridIndex, const FPointerEvent& MouseEvent);
 
-	bool IsRightClick(const FPointerEvent& MouseEvent) const;
+	static bool IsRightClick(const FPointerEvent& MouseEvent);
 
-	bool IsLeftClick(const FPointerEvent& MouseEvent) const;
+	static bool IsLeftClick(const FPointerEvent& MouseEvent);
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	TSubclassOf<UInv_HoverItem> HoverItemClass;
@@ -160,7 +162,7 @@ private:
 
 	void AssignHoverItem(UInv_InventoryItem* InventoryItem, const int32 GridIndex, const int32 PreviousGridIndex);
 
-	void RemoveItemFromGrid(UInv_InventoryItem* InventoryItem, const int32 GridIndex);
+	void RemoveItemFromGrid(const UInv_InventoryItem* InventoryItem, const int32 GridIndex);
 
 	FInv_TileParameters TileParameters;
 
@@ -174,7 +176,7 @@ private:
 
 	void OnTileParametersUpdated(const FInv_TileParameters& Parameters);
 
-	FIntPoint CalculateStartingCoordinate(const FIntPoint& Coordinate, const FIntPoint& Dimensions, const EInv_TileQuadrant Quadrant) const;
+	static FIntPoint CalculateStartingCoordinate(const FIntPoint& Coordinate, const FIntPoint& Dimensions, const EInv_TileQuadrant Quadrant);
 
 	FInv_SpaceQueryResult CheckHoverPosition(const FIntPoint& Position, const FIntPoint& Dimensions);
 
@@ -227,15 +229,15 @@ private:
 
 	void SwapWithHoverItem(UInv_InventoryItem* ClickedInventoryItem, const int32 GridIndex);
 
-	bool ShouldSwapStackCounts(const int32 RoomInClickedSlot, const int32 HoveredStackCount, const int32 MaxStackSize) const;
+	static bool ShouldSwapStackCounts(const int32 RoomInClickedSlot, const int32 HoveredStackCount, const int32 MaxStackSize);
 
 	void SwapStackCounts(const int32 ClickedStackCount, const int32 HoveredStackCount, const int32 Index);
 
-	bool ShouldConsumeHoverItemStacks(const int32 HoveredStackCount, const int32 RoomInClickedSlot) const;
+	static bool ShouldConsumeHoverItemStacks(const int32 HoveredStackCount, const int32 RoomInClickedSlot);
 
 	void ConsumeHoverItemStacks(const int32 ClickedStackCount, const int32 HoveredStackCount, const int32 Index);
 
-	bool ShouldFillInStack(const int32 RoomInClickedSlot, const int32 HoveredStackCount) const;
+	static bool ShouldFillInStack(const int32 RoomInClickedSlot, const int32 HoveredStackCount);
 
 	void FillInStack(const int32 FillAmount, const int32 Remainder, const int32 Index);
 

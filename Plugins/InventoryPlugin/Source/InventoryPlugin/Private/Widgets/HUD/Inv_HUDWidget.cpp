@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #include "Widgets/HUD/Inv_HUDWidget.h"
 #include "InventoryManagement/Components/Inv_InventoryComponent.h"
@@ -9,11 +9,11 @@ void UInv_HUDWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	UInv_InventoryComponent* InventoryComponent = UInv_InventoryStatics::GetInventoryComponent(GetOwningPlayer());
-	if(IsValid(InventoryComponent))
+	if(UInv_InventoryComponent* InventoryComponent = UInv_InventoryStatics::GetInventoryComponent(GetOwningPlayer()); IsValid(InventoryComponent))
 		InventoryComponent->NoRoomInInventory.AddDynamic(this, &UInv_HUDWidget::OnNoRoom);
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 void UInv_HUDWidget::OnNoRoom()
 {
 	if(!IsValid(InfoMessage)) return;

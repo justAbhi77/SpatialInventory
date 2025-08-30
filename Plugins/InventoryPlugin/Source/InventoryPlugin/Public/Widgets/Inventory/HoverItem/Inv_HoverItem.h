@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -33,7 +33,7 @@ public:
 
 	int32 GetPreviousGridIndex() const { return PreviousGridIndex; }
 
-	void SetPreviousGridIndex(int32 Index) { PreviousGridIndex = Index; }
+	void SetPreviousGridIndex(const int32 Index) { PreviousGridIndex = Index; }
 
 	FIntPoint GetGridDimensions() const { return GridDimensions; }
 

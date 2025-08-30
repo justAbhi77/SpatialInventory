@@ -1,4 +1,4 @@
-// 
+//
 
 #pragma once
 
@@ -39,7 +39,7 @@ struct FInv_GridFragment : public FInv_ItemFragment
 	FIntPoint GetGridSize() const { return GridSize; }
 	void SetGridSize(const FIntPoint& Size) { GridSize = Size; }
 	float GetGridPadding() const { return GridPadding; }
-	void SetGridPadding(float Padding) { GridPadding = Padding; }
+	void SetGridPadding(const float Padding) { GridPadding = Padding; }
 
 private:
 
@@ -59,7 +59,7 @@ struct FInv_StackableFragment : public FInv_ItemFragment
 
 	int32 GetStackCount() const { return StackCount; }
 
-	void SetStackCount(int32 Count) { StackCount = Count; }
+	void SetStackCount(const int32 Count) { StackCount = Count; }
 
 private:
 
@@ -108,7 +108,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	float Max{0};
-	
+
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	bool bCollapseLabel{false};
 
@@ -117,7 +117,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	int32 MinFractionalDigits{1};
-	
+
 	UPROPERTY(EditAnywhere, Category = "Inventory")
 	int32 MaxFractionalDigits{1};
 };

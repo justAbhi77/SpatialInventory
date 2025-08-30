@@ -1,5 +1,4 @@
-﻿// 
-
+﻿//
 
 #include "Widgets/HUD/Inv_InfoMessage.h"
 #include "Components/TextBlock.h"

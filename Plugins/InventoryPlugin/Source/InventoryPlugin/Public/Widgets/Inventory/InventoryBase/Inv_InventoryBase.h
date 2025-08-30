@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -12,7 +12,10 @@ class UInv_InventoryItem;
 class UInv_HoverItem;
 
 /**
- * 
+ * Base class for inventory manager widgets.
+ * can be spatial or non-spatial.
+ * can be grid based or not.
+ * can be single or multipage.
  */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_InventoryBase : public UUserWidget

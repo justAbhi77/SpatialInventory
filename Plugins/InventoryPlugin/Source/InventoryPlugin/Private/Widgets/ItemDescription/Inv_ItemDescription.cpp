@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 
 #include "Widgets/ItemDescription/Inv_ItemDescription.h"
@@ -9,9 +9,9 @@ FVector2D UInv_ItemDescription::GetBoxSize() const
 	return SizeBox->GetDesiredSize();
 }
 
-void UInv_ItemDescription::SetVisibility(ESlateVisibility InVisibility)
+void UInv_ItemDescription::SetVisibility(const ESlateVisibility InVisibility)
 {
-	for(auto Child : GetChildren())
+	for(const auto Child : GetChildren())
 		Child->Collapse();
 
 	Super::SetVisibility(InVisibility);

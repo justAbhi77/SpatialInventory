@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -7,7 +7,7 @@
 #include "Inv_Composite.generated.h"
 
 /**
- * 
+ * Middle level composite widget that can contain other composite widgets or leaf widgets.
  */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_Composite : public UInv_CompositeBase
@@ -16,7 +16,7 @@ class INVENTORYPLUGIN_API UInv_Composite : public UInv_CompositeBase
 public:
 	virtual void NativeOnInitialized() override;
 
-	virtual void ApplyFunction(FuncType Function) override;
+	virtual void ApplyFunction(FUncType Function) override;
 
 	virtual void Collapse() override;
 

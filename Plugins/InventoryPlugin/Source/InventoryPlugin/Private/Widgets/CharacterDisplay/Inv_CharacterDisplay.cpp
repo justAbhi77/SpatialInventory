@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #include "Widgets/CharacterDisplay/Inv_CharacterDisplay.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
@@ -9,7 +9,7 @@ FReply UInv_CharacterDisplay::NativeOnMouseButtonDown(const FGeometry& MyGeometr
 {
 	CurrentPosition = UWidgetLayoutLibrary::GetMousePositionOnViewport(GetOwningPlayer());
 	LastPosition = CurrentPosition;
-	
+
 	bIsDragging = true;
 	return FReply::Handled();
 }
@@ -23,7 +23,9 @@ FReply UInv_CharacterDisplay::NativeOnMouseButtonUp(const FGeometry& InGeometry,
 void UInv_CharacterDisplay::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseLeave(InMouseEvent);
-	bIsDragging = false;
+
+	if(bShouldStopWhenMouseLeaves)
+		bIsDragging = false;
 }
 
 void UInv_CharacterDisplay::NativeOnInitialized()
@@ -35,13 +37,13 @@ void UInv_CharacterDisplay::NativeOnInitialized()
 
 	if(!Actors.IsValidIndex(0)) return;
 
-	AInv_ProxyMesh* ProxyMesh = Cast<AInv_ProxyMesh>(Actors[0]);
+	const AInv_ProxyMesh* ProxyMesh = Cast<AInv_ProxyMesh>(Actors[0]);
 	if(!IsValid(ProxyMesh)) return;
 
 	Mesh = ProxyMesh->GetMesh();
 }
 
-void UInv_CharacterDisplay::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+void UInv_CharacterDisplay::NativeTick(const FGeometry& MyGeometry, const float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
 	if(!bIsDragging) return;

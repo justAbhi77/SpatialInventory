@@ -1,4 +1,4 @@
-// 
+//
 
 #include "Items/Manifest/Inv_ItemManifest.h"
 #include "Items/Inv_InventoryItem.h"
@@ -22,11 +22,11 @@ UInv_InventoryItem* FInv_ItemManifest::Manifest(UObject* NewOuter)
 	return Item;
 }
 
-void FInv_ItemManifest::SpawnPickupActor(const UObject* WorldContextObject, const FVector& SpawnLocation, const FRotator& SpawnRotation)
+void FInv_ItemManifest::SpawnPickupActor(const UObject* WorldContextObject, const FVector& SpawnLocation, const FRotator& SpawnRotation) const
 {
 	if(!IsValid(PickupActorClass) || !IsValid(WorldContextObject)) return;
 
-	AActor* SpawnedActor = WorldContextObject->GetWorld()->SpawnActor<AActor>(PickupActorClass, SpawnLocation, SpawnRotation);
+	const AActor* SpawnedActor = WorldContextObject->GetWorld()->SpawnActor<AActor>(PickupActorClass, SpawnLocation, SpawnRotation);
 	if(!IsValid(SpawnedActor)) return;
 
 	// Set the item manifest, item category, item type, etc.
@@ -37,17 +37,16 @@ void FInv_ItemManifest::SpawnPickupActor(const UObject* WorldContextObject, cons
 
 #if WITH_EDITOR
 		if(WorldContextObject->GetWorld()->GetNetMode() == NM_Client) return;
-		auto messageLog = FMessageLog(MessageLogListing);
-		messageLog.Error(FText::FromString(FString::Printf(TEXT("Item Component on Spawned Actor %s is not valid."), *SpawnedActor->GetName())));
+		auto MessageLog = FMessageLog(MESSAGE_LOG_LISTING);
+		MessageLog.Error(FText::FromString(FString::Printf(TEXT("Item Component on Spawned Actor %s is not valid."), *SpawnedActor->GetName())));
 
 		TSharedPtr<FDelegateHandle> ShutdownMessage = MakeShared<FDelegateHandle>();
 		*ShutdownMessage = FEditorDelegates::ShutdownPIE.AddLambda([ShutdownMessage](bool bPlayInEditor){
-			FMessageLog(MessageLogListing).Notify(FText::FromString("Inventory Item Spawn Error"), EMessageSeverity::Error, true);
+			FMessageLog(MESSAGE_LOG_LISTING).Notify(FText::FromString("Inventory Item Spawn Error"), EMessageSeverity::Error, true);
 			FEditorDelegates::ShutdownPIE.Remove(*ShutdownMessage);
 		});
 #endif // WITH_EDITOR
 
-		UE_LOG(LogActor, BreakOnLog, TEXT("Item Component on Spawned Actor %s is not valid."), *SpawnedActor->GetName());
 		return;
 	}
 
@@ -56,8 +55,7 @@ void FInv_ItemManifest::SpawnPickupActor(const UObject* WorldContextObject, cons
 
 void FInv_ItemManifest::AssimilateInventoryFragments(UInv_CompositeBase* Composite) const
 {
-	const auto& InventoryItemFragments = GetAllFragmentsOfType<FInv_InventoryItemFragment>();
-	for(const auto* Fragment : InventoryItemFragments)
+	for(const auto* Fragment : GetAllFragmentsOfType<FInv_InventoryItemFragment>())
 		Composite->ApplyFunction([Fragment](UInv_CompositeBase* Widget)
 		{
 			Fragment->Assimilate(Widget);

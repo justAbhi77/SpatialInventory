@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #include "EquipmentManagement/Components/Inv_EquipmentComponent.h"
 #include "GameFramework/Character.h"
@@ -34,7 +34,7 @@ void UInv_EquipmentComponent::InitPlayerController()
 void UInv_EquipmentComponent::OnPossessedPawnChange(APawn* OldPawn, APawn* NewPawn)
 {
 	if(!OwningSkeletalMesh.IsValid())
-		if(ACharacter* OwnerCharacter = Cast<ACharacter>(NewPawn); IsValid(OwnerCharacter))
+		if(const ACharacter* OwnerCharacter = Cast<ACharacter>(NewPawn); IsValid(OwnerCharacter))
 			OwningSkeletalMesh = OwnerCharacter->GetMesh();
 
 	InitInventoryComponent();
@@ -86,7 +86,7 @@ void UInv_EquipmentComponent::OnItemUnequipped(UInv_InventoryItem* UnequippedIte
 	RemoveEquippedActorByTag(EquipmentFragment->GetEquipmentType());
 }
 
-AInv_EquipActor* UInv_EquipmentComponent::SpawnEquippedActor(FInv_EquipmentFragment* EquipmentFragment, const FInv_ItemManifest& Manifest, USkeletalMeshComponent* AttachMesh)
+AInv_EquipActor* UInv_EquipmentComponent::SpawnEquippedActor(FInv_EquipmentFragment* EquipmentFragment, const FInv_ItemManifest& Manifest, USkeletalMeshComponent* AttachMesh) const
 {
 	AInv_EquipActor* SpawnedEquipActor = EquipmentFragment->SpawnAttachedActor(AttachMesh);
 	if(!SpawnedEquipActor) return nullptr;

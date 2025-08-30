@@ -1,4 +1,4 @@
-﻿// 
+﻿//
 
 #pragma once
 
@@ -22,25 +22,25 @@ enum class EInv_GridSlotState : uint8
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FGridSlotEvent, int32, GridIndex, const FPointerEvent&, MouseEvent);
 
 /**
- * 
+ * A single slot in the inventory grid.
  */
 UCLASS(PrioritizeCategories = ("Inventory"))
 class INVENTORYPLUGIN_API UInv_GridSlot : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	void SetTileIndex(int32 Index) { TileIndex = Index; }
+	void SetTileIndex(const int32 Index) { TileIndex = Index; }
 
 	int32 GetTileIndex() const { return TileIndex; }
 
 	EInv_GridSlotState GetGridSlotState() const { return GridSlotState; }
 
 	void SetOccupiedTexture();
-	
+
 	void SetUnoccupiedTexture();
-	
+
 	void SetSelectedTexture();
-	
+
 	void SetGrayedOutTexture();
 
 	TWeakObjectPtr<UInv_InventoryItem> GetInventoryItem() const { return InventoryItem; }
@@ -49,19 +49,19 @@ public:
 
 	int32 GetStackCount() const { return StackCount; }
 
-	void SetStackCount(int32 Count) { StackCount = Count; }
+	void SetStackCount(const int32 Count) { StackCount = Count; }
 
 	int32 GetIndex() const { return TileIndex; }
 
-	void SetIndex(int32 Index) { TileIndex = Index; }
+	void SetIndex(const int32 Index) { TileIndex = Index; }
 
 	int32 GetUpperLeftIndex() const { return UpperLeftIndex; }
 
-	void SetUpperLeftIndex(int32 Index) { UpperLeftIndex = Index; }
+	void SetUpperLeftIndex(const int32 Index) { UpperLeftIndex = Index; }
 
 	bool IsAvailable() const { return bAvailable; }
 
-	void SetAvailable(bool bIsAvailable) { bAvailable = bIsAvailable; }
+	void SetAvailable(const bool bIsAvailable) { bAvailable = bIsAvailable; }
 
 	virtual void NativeOnMouseEnter(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent) override;
 
