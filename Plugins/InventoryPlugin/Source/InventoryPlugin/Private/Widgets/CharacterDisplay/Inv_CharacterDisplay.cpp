@@ -17,7 +17,7 @@ FReply UInv_CharacterDisplay::NativeOnMouseButtonDown(const FGeometry& MyGeometr
 FReply UInv_CharacterDisplay::NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	bIsDragging = false;
-	return Super::NativeOnMouseButtonUp(InGeometry, InMouseEvent);
+	return FReply::Handled();
 }
 
 void UInv_CharacterDisplay::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)

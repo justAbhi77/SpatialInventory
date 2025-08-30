@@ -65,7 +65,8 @@ void AInv_ProxyMesh::DelayedInitializeOwner()
 
 void AInv_ProxyMesh::DelayedInitialization()
 {
-	FTimerDelegate TimerDelegate;
-	TimerDelegate.BindUObject(this, &ThisClass::DelayedInitializeOwner);
-	GetWorld()->GetTimerManager().SetTimerForNextTick(TimerDelegate);
+	// FTimerDelegate TimerDelegate;
+	// TimerDelegate.BindUObject(this, &ThisClass::DelayedInitializeOwner);
+	// GetWorld()->GetTimerManager().SetTimerForNextTick(TimerDelegate);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandleForNextTick, this, &ThisClass::DelayedInitializeOwner, 0.1f, false);
 }

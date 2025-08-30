@@ -19,6 +19,8 @@ public:
 	virtual void ApplyFunction(FuncType Function) override;
 
 	virtual void Collapse() override;
+
+	TArray<UInv_CompositeBase*> GetChildren() const { return Children; }
 private:
 	UPROPERTY()
 	TArray<TObjectPtr<UInv_CompositeBase>> Children;

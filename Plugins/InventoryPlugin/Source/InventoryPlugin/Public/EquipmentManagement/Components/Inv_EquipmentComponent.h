@@ -47,9 +47,9 @@ private:
 	UPROPERTY()
 	TArray<TObjectPtr<AInv_EquipActor>> EquippedActors;
 
-	AInv_EquipActor* FindEquippedActor(const FGameplayTag& EquipmentTypeTag);
+	AInv_EquipActor* FindEquippedActorByTag(const FGameplayTag& EquipmentTypeTag);
 
-	void RemoveEquippedActor(const FGameplayTag& EquipmentTypeTag);
+	void RemoveEquippedActorByTag(const FGameplayTag& EquipmentTypeTag);
 
 	void InitPlayerController();
 

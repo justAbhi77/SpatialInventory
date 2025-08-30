@@ -33,8 +33,9 @@ void UInv_EquipmentComponent::InitPlayerController()
 
 void UInv_EquipmentComponent::OnPossessedPawnChange(APawn* OldPawn, APawn* NewPawn)
 {
-	if(ACharacter* OwnerCharacter = Cast<ACharacter>(NewPawn); IsValid(OwnerCharacter))
-		OwningSkeletalMesh = OwnerCharacter->GetMesh();
+	if(!OwningSkeletalMesh.IsValid())
+		if(ACharacter* OwnerCharacter = Cast<ACharacter>(NewPawn); IsValid(OwnerCharacter))
+			OwningSkeletalMesh = OwnerCharacter->GetMesh();
 
 	InitInventoryComponent();
 }
@@ -82,7 +83,7 @@ void UInv_EquipmentComponent::OnItemUnequipped(UInv_InventoryItem* UnequippedIte
 	if(!bIsProxy)
 		EquipmentFragment->OnUnequip(OwningPlayerController.Get());
 
-	RemoveEquippedActor(EquipmentFragment->GetEquipmentType());
+	RemoveEquippedActorByTag(EquipmentFragment->GetEquipmentType());
 }
 
 AInv_EquipActor* UInv_EquipmentComponent::SpawnEquippedActor(FInv_EquipmentFragment* EquipmentFragment, const FInv_ItemManifest& Manifest, USkeletalMeshComponent* AttachMesh)
@@ -96,7 +97,7 @@ AInv_EquipActor* UInv_EquipmentComponent::SpawnEquippedActor(FInv_EquipmentFragm
 	return SpawnedEquipActor;
 }
 
-AInv_EquipActor* UInv_EquipmentComponent::FindEquippedActor(const FGameplayTag& EquipmentTypeTag)
+AInv_EquipActor* UInv_EquipmentComponent::FindEquippedActorByTag(const FGameplayTag& EquipmentTypeTag)
 {
 	auto FoundActor = EquippedActors.FindByPredicate([&EquipmentTypeTag](const AInv_EquipActor* EquippedActor)
 	{
@@ -105,9 +106,9 @@ AInv_EquipActor* UInv_EquipmentComponent::FindEquippedActor(const FGameplayTag& 
 	return FoundActor ? *FoundActor : nullptr;
 }
 
-void UInv_EquipmentComponent::RemoveEquippedActor(const FGameplayTag& EquipmentTypeTag)
+void UInv_EquipmentComponent::RemoveEquippedActorByTag(const FGameplayTag& EquipmentTypeTag)
 {
-	if(AInv_EquipActor* EquippedActor = FindEquippedActor(EquipmentTypeTag); IsValid(EquippedActor))
+	if(AInv_EquipActor* EquippedActor = FindEquippedActorByTag(EquipmentTypeTag); IsValid(EquippedActor))
 	{
 		EquippedActors.Remove(EquippedActor);
 		EquippedActor->Destroy();

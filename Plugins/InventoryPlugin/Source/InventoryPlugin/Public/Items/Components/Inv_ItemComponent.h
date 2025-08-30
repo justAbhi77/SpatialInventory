@@ -28,6 +28,8 @@ public:
 	void PickedUp();
 
 	void InitItemManifest(FInv_ItemManifest CopyOfManifest);
+
+	FInv_ItemManifest& GetItemManifestMutable() { return ItemManifest; }
 protected:
 	virtual void BeginPlay() override;
 

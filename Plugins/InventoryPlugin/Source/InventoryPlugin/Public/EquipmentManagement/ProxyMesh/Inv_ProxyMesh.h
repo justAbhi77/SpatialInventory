@@ -30,8 +30,9 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USkeletalMeshComponent> Mesh;
 
-	FTimerHandle TimerForNextTick;
+	FTimerHandle TimerHandleForNextTick;
 
+	UFUNCTION()
 	void DelayedInitializeOwner();
 
 	void DelayedInitialization();

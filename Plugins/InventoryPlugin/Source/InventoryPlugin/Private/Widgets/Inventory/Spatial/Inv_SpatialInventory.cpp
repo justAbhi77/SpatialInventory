@@ -122,8 +122,8 @@ void UInv_SpatialInventory::OnItemHovered(UInv_InventoryItem* Item)
 		if(UInv_ItemDescription* DescriptionWidget = GetItemDescription())
 		{
 			// Assimilate the manifest into the item description widget
-			Manifest.AssimilateInventoryFragments(DescriptionWidget);
 			DescriptionWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
+			Manifest.AssimilateInventoryFragments(DescriptionWidget);
 
 			// For the second item description, showing the equipped item of this type.
 			FTimerDelegate EquippedDescriptionTimerDelegate;
@@ -137,12 +137,12 @@ void UInv_SpatialInventory::OnItemHovered(UInv_InventoryItem* Item)
 
 void UInv_SpatialInventory::OnItemUnHovered()
 {
-	if(UInv_ItemDescription* itemDescription = GetItemDescription())
-		itemDescription->SetVisibility(ESlateVisibility::Collapsed);
-
 	FTimerManager& TimerManager = GetOwningPlayer()->GetWorldTimerManager();
 	TimerManager.ClearTimer(DescriptionTimer);
 	TimerManager.ClearTimer(EquippedDescriptionTimer);
+
+	if(UInv_ItemDescription* itemDescription = GetItemDescription())
+		itemDescription->SetVisibility(ESlateVisibility::Collapsed);
 
 	if(UInv_ItemDescription* EquippedItem = GetEquippedItemDescription())
 		EquippedItem->SetVisibility(ESlateVisibility::Collapsed);
@@ -362,9 +362,10 @@ void UInv_SpatialInventory::ShowEquippedItemDescription(UInv_InventoryItem* Item
 	// It's not equipped, so find the equipped item with the same equipment type
 	auto FoundEquippedSlot = EquippedGridSlots.FindByPredicate([HoveredEquipmentType](const UInv_EquippedGridSlot* GridSlot)
 	{
-		return GridSlot->GetInventoryItem()->GetItemManifest().GetFragmentOfType<FInv_EquipmentFragment>()->GetEquipmentType() == HoveredEquipmentType;
+		UInv_InventoryItem* InventoryItem = GridSlot->GetInventoryItem().Get();
+		return IsValid(InventoryItem) ? InventoryItem->GetItemManifest().GetFragmentOfType<FInv_EquipmentFragment>()->GetEquipmentType() == HoveredEquipmentType : false;
 	});
-	UInv_EquippedGridSlot* EquippedSlot = FoundEquippedSlot ? *FoundEquippedSlot : nullptr;
+	UInv_EquippedGridSlot* EquippedSlot = FoundEquippedSlot ? *FoundEquippedSlot : nullptr; // FoundEquippedSlot is a Double pointer (Tobject pointer to a pointer)
 	if(!IsValid(EquippedSlot)) return; // No equipped item with the same equipment type
 
 	UInv_InventoryItem* EquippedItem = EquippedSlot->GetInventoryItem().Get();
@@ -382,7 +383,7 @@ void UInv_SpatialInventory::ShowEquippedItemDescription(UInv_InventoryItem* Item
 
 UInv_ItemDescription* UInv_SpatialInventory::GetEquippedItemDescription()
 {
-	if(!IsValid(EquippedItemDescription))
+	if(!IsValid(EquippedItemDescription) && IsValid(EquippedItemDescriptionClass))
 	{
 		EquippedItemDescription = CreateWidget<UInv_ItemDescription>(GetOwningPlayer(), EquippedItemDescriptionClass);
 		CanvasPanel->AddChild(EquippedItemDescription);
