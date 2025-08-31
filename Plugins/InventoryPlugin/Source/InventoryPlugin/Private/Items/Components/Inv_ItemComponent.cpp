@@ -30,7 +30,7 @@ void UInv_ItemComponent::BeginPlay()
 	if(const AActor* Owner = GetOwner())
 		if(!Owner->GetIsReplicated())
 		{
-			UE_LOG(LogActor, BreakOnLog, TEXT("Item Component on Actor %s is Not Replicated."), *Owner->GetName());
+			UE_LOG(LogActor, Error, TEXT("Item Component on Actor %s is Not Replicated."), *Owner->GetName());
 
 #if WITH_EDITOR
 			if(!Owner->HasAuthority()) return;

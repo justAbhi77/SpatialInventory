@@ -56,3 +56,8 @@ void UInv_CharacterDisplay::NativeTick(const FGeometry& MyGeometry, const float 
 	if(!Mesh.IsValid()) return;
 	Mesh->AddRelativeRotation(FRotator(0.f, HorizontalDelta, 0.f));
 }
+
+void UInv_CharacterDisplay::OnMouseUp()
+{
+	bIsDragging = false;
+}

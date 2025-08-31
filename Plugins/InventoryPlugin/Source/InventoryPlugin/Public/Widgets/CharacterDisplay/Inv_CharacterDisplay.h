@@ -23,6 +23,9 @@ public:
 	virtual void NativeOnInitialized() override;
 
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+protected:
+	UFUNCTION(BlueprintCallable)
+	void OnMouseUp();
 private:
 	bool bIsDragging{false};
 	TWeakObjectPtr<USkeletalMeshComponent> Mesh;

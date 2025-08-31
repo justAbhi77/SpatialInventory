@@ -6,8 +6,11 @@
 #include "UObject/Interface.h"
 #include "Inv_Highlightable.generated.h"
 
-
-// This class does not need to be modified.
+/**
+ * Interface for actor components that can be highlighted or unhighlighted by the inventory system.
+ * Any component that implements this interface can be interacted with visually (highlight/unhighlight)
+ * when the player looks at it.
+ */
 UINTERFACE()
 class UInv_Highlightable : public UInterface
 {
@@ -15,15 +18,14 @@ class UInv_Highlightable : public UInterface
 };
 
 /**
- * Any actor that implements this interface can be highlighted/unhighlighted by the inventory system when the player looks at it.
+ * Interface for actor components that can be highlighted or unhighlighted by the inventory system.
+ * Any component that implements this interface can be interacted with visually (highlight/unhighlight)
+ * when the player looks at it.
  */
 class INVENTORYPLUGIN_API IInv_Highlightable
 {
 	GENERATED_BODY()
-
-	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-
 	UFUNCTION(BlueprintNativeEvent, Category = "Inventory")
 	void Highlight();
 
